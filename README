@@ -1,0 +1,22 @@
+# nix-darwin
+Nix configuration for macOS systems
+
+# Requirements
+A working install of [nix](https://nixos.org/download.html) + [nix-darwin](https://github.com/LnL7/nix-darwin)
+
+``` shell
+# install nix
+curl -L https://nixos.org/nix/install | sh
+
+# install nix-darwin
+nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
+./result/bin/darwin-installer
+```
+
+# Activate using flakes
+
+``` shell               
+
+```
+
+
