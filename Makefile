@@ -1,7 +1,6 @@
 HOSTNAME := $(shell basename $(shell hostname) .local)
 NIX_CONF := $(HOME)/.config/nix
-NIX_DARWIN := $(HOME)/.config/nix-darwin
-
+NIX_DARWIN := $(HOME)/.config/nix-macos
 
 env-args:
 	@echo NIX_CONF=$(NIX_CONF)
