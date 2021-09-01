@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, home-manager, ... }:
 
 {
   nix.package = pkgs.nixFlakes;
@@ -19,6 +19,12 @@
       home = "/Users/mikeyobrien";
       shell = pkgs.fish;
     };
+  };
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.mikeyobrien = import ./home.nix;
   };
 
   # List packages installed in system profile. To search by name, run:
