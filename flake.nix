@@ -11,11 +11,16 @@
   outputs = { darwin, home-manager, nixpkgs, ... }: {
     darwinConfigurations = {
         "mobrien-mbp19" = darwin.lib.darwinSystem {
-          modules = [ ./mobrien-mbp19/configuration.nix ];
-          inputs = { inherit home-manager nixpkgs; };
+          modules = [ 
+	    ./mobrien-mbp19/configuration.nix 
+	    home-manager.darwinModules.home-manager
+	  ];
         };
-        "m1macbook" = darwin.lib.darwinSystem {
-          modules = [ ./m1macbook/configuration.nix ];
+        "m1macbook"     = darwin.lib.darwinSystem {
+          modules = [ 
+	    ./m1macbook/configuration.nix 
+	    home-manager.darwinModules.home-manager
+	  ];
         };
     };
   };

@@ -17,3 +17,5 @@ build:
 
 switch:
 	@$(NIX_DARWIN)/result/sw/bin/darwin-rebuild switch --flake $(NIX_DARWIN)
+
+build-switch: build switch

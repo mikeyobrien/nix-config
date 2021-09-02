@@ -30,7 +30,7 @@
   # Create /etc/bashrc that loads the nix-darwin environment.
   programs.zsh.enable = true;  # default shell on catalina
   # programs.fish.enable = true;
-  # environment.darwinConfig = "$HOME/.config/nix-darwin/m1macbook/configuration.nix";
+  environment.darwinConfig = "$HOME/.config/nix-macos/m1macbook/configuration.nix";
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
