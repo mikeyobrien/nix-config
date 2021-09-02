@@ -22,18 +22,25 @@
     };
   };
 
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.mikeyobrien = import ./home.nix;
-  };
-
   environment.systemPackages = with pkgs; [
-    git
-    curl
+    fish
+    zsh
+    bashInteractive
   ];
 
+  programs.zsh.enable = true;
   programs.fish.enable = true;
+  programs.fish.useBabelfish = true;
+  programs.fish.babelfishPackage = pkgs.babelfish;
+
+  programs.fish.shellInit = ''
+    for p in (string split : ${config.environment.systemPath})
+      if not contains $p $fish_user_paths
+        set -g fish_user_paths $fish_user_paths $p
+      end
+    end
+  '';
+  environment.variables.SHELL = "${pkgs.fish}/bin/fish";
 
   system.stateVersion = 4;
 }

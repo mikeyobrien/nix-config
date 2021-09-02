@@ -18,8 +18,8 @@ with builtins;
     fd
     bat
     diff-so-fancy
-    imagemagick
     clojure-lsp
+    thefuck
     gopls
     direnv
   ];

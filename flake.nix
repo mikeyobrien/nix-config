@@ -8,20 +8,31 @@
     home-manager.url = "github:nix-community/home-manager";
   };
 
-  outputs = { darwin, home-manager, nixpkgs, ... }: {
+
+  outputs = { self, darwin, home-manager, nixpkgs, ... }:
+  let
+  homeManagerCommonConfig = with self.homeManagerModules; {
+    imports = [ ./home ];
+  };
+  in {
     darwinConfigurations = {
-        "mobrien-mbp19" = darwin.lib.darwinSystem {
-          modules = [ 
-	    ./mobrien-mbp19/configuration.nix 
-	    home-manager.darwinModules.home-manager
-	  ];
-        };
-        "m1macbook"     = darwin.lib.darwinSystem {
-          modules = [ 
-	    ./m1macbook/configuration.nix 
-	    home-manager.darwinModules.home-manager
-	  ];
-        };
+      "mobrien-mbp19" = darwin.lib.darwinSystem {
+        modules = [
+          ./mobrien-mbp19/configuration.nix
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.users.mikeyobrien = homeManagerCommonConfig;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          }
+        ];
+      };
+      "m1macbook" = darwin.lib.darwinSystem {
+        modules = [
+          ./m1macbook/configuration.nix
+          home-manager.darwinModules.home-manager
+        ];
+      };
     };
   };
 }
