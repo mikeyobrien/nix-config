@@ -3,6 +3,10 @@
 with builtins;
 
 {
+  imports = [
+    ./neovim.nix
+  ];
+
   programs.home-manager.enable = true;
 
   home.username = "mikeyobrien";
@@ -10,8 +14,8 @@ with builtins;
 
   home.packages = with pkgs; [
     fish
+    starship
     htop
-
     jetbrains-mono
     ripgrep
     fzf
@@ -32,91 +36,6 @@ with builtins;
   };
 
   programs.direnv.enable = true;
-
-  programs.neovim = {
-    enable = true;
-    withPython3 = true;
-    plugins = with pkgs.vimPlugins; [
-      vim-airline
-      vim-airline-themes
-      vim-startify
-      vim-go
-      vim-markdown
-      vim-eunuch
-      vim-fireplace
-      vim-fugitive
-    ];
-    extraConfig = ''
-      let g:vim_home_path = "~/.config/nvim"
-
-      let mapleader=" "
-      set autoread
-      set backspace=2
-      set hidden
-      set laststatus=2
-      set list
-      set number
-      set ruler
-      set t_Co=256
-      set scrolloff=999
-      set showmatch
-      set showmode
-      set splitbelow
-      set splitright
-      set title
-      set visualbell
-      syntax on
-
-      execute "set directory=" . g:vim_home_path . "/swap"
-      execute "set backupdir=" . g:vim_home_path . "/backup"
-      execute "set undodir="   . g:vim_home_path . "/undo"
-      set backup
-      set undofile
-      set writebackup
-
-      set hlsearch
-      set ignorecase
-      set incsearch
-      set smartcase
-
-      set expandtab
-      set tabstop=4
-      set softtabstop=4
-      set shiftwidth
-
-      set wildmode=list:longest
-      set wildignore+=.git,.gh,.svn
-      set wildignore+=*.6
-      set wildignore+=*.pyc
-      set wildignore+=*.rbc
-      set wildignore+=*.swp
-
-      inoremap jj <esc>
-      map j gj
-      map k gk
-
-      nmap <leader>cd :cd %:h<CR>
-      nmap <leader>lcd :lcd %:h<CR>
-      nmap <leader>tcd :Tcd %:h<CR>| "requires Tcd Plugin
-
-      nmap <silent> <leader>nix :e ~/.config/nix-macos/<CR>
-
-      " Easier split navigation
-      nnoremap <C-j> <C-w>j
-      nnoremap <C-k> <C-w>k
-      nnoremap <C-h> <C-w>h
-      nnoremap <C-l> <C-w>l
-
-      " macos bugfix, C-h sent as backspace
-      nnoremap <BC> <C-W>h
-
-      " Remember cursor position
-      augroup vimrc-remember-cursor-position
-        autocmd!
-        autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$"  ) | exe "normal! g`\"" | endif
-      augroup END
-    '';
-  };
 
   programs.ssh = {
     enable = true;
@@ -171,16 +90,6 @@ with builtins;
       }
 
       {
-        name = "agnoster";
-        src = pkgs.fetchFromGitHub {
-          owner = "oh-my-fish";
-          repo = "theme-agnoster";
-          rev = "43860ce1536930bca689470e26083b0a5b7bd6ae";
-          sha256 = "16k94hz3s6wayass6g1lhlcjmbpf2w8mzx90qrrqp120h80xwp25";
-        };
-      }
-
-      {
         name = "fish-ssh-agent";
         src = pkgs.fetchFromGitHub {
           owner = "danhper";
@@ -192,6 +101,11 @@ with builtins;
 
     ];
 
+    interactiveShellInit = ''
+      set -g fish_greeting ""
+      ${pkgs.thefuck}/bin/thefuck --alias | source
+    '';
+
     loginShellInit = ''
       if test -e $HOME/.nix-profile/etc/profile.d/nix-daemon.sh
         fenv source $HOME/.nix-profile/etc/profile.d/nix-daemon.sh
@@ -201,6 +115,11 @@ with builtins;
         fenv source $HOME/.nix-profile/etc/profile.d/nix.sh
       end
     '';
+  };
+
+  programs.starship = {
+    enable = true;
+    enableFishIntegration = true;
   };
 
   programs.git = {
@@ -217,18 +136,6 @@ with builtins;
       "includeIf \"code/\"" = { path = ".gitconfig-code"; };
     };
   };
-
-
-
-  xdg.configFile."fish/conf.d/plugin-bobthefish.fish".text = lib.mkAfter ''
-    for f in $plugin_dir/*.fish
-      source $f
-    end
-  '';
-
-  xdg.configFile."nix/nix.conf".text = ''
-    experimental-features = nix-command flakes
-  '';
 
   home.stateVersion = "21.03";
 }

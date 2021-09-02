@@ -9,11 +9,11 @@
   };
 
 
-  outputs = { self, darwin, home-manager, nixpkgs, ... }:
+  outputs = inputs@{ self, darwin, home-manager, nixpkgs, ... }:
   let
-  homeManagerCommonConfig = with self.homeManagerModules; {
-    imports = [ ./home ];
-  };
+    homeManagerCommonConfig = with self.homeManagerModules; {
+      imports = [ ./home ];
+    };
   in {
     darwinConfigurations = {
       "mobrien-mbp19" = darwin.lib.darwinSystem {
