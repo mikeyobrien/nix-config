@@ -10,7 +10,7 @@ with builtins;
   programs.home-manager.enable = true;
 
   home.username = "mikeyobrien";
-  home.homeDirectory = "/Users/mikeyobrien";
+  home.homeDirectory = "/home/mikeyobrien";
 
   home.packages = with pkgs; [
     fish

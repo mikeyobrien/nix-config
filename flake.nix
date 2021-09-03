@@ -15,6 +15,19 @@
       imports = [ ./home ];
     };
   in {
+    nixosConfigurations.nixos =  nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [ 
+        ./hosts/nix-wsl/configuration.nix 
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.users.mikeyobrien = homeManagerCommonConfig;
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+      ];
+    };
+
     darwinConfigurations = {
       "mobrien-mbp19" = darwin.lib.darwinSystem {
         modules = [
