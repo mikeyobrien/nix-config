@@ -1,4 +1,5 @@
 HOSTNAME := $(shell basename $(shell hostname) .local)
+HOST_OS := $(shell uname)
 NIX_CONF := $(HOME)/.config/nix
 NIX_DARWIN := $(HOME)/.config/nix-macos
 
@@ -18,4 +19,7 @@ build:
 switch:
 	@$(NIX_DARWIN)/result/sw/bin/darwin-rebuild switch --flake $(NIX_DARWIN)
 
-build-switch: build switch
+rebuild-switch:
+	@nixos-rebuild switch --flake "/etc/nixos#"
+
+darwin-switch: build switch

@@ -1,7 +1,9 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, system, ... }:
 
 with builtins;
-
+let
+  homesRoot = "/home";
+in
 {
   imports = [
     ./neovim.nix
@@ -10,7 +12,10 @@ with builtins;
   programs.home-manager.enable = true;
 
   home.username = "mikeyobrien";
-  home.homeDirectory = "/home/mikeyobrien";
+  home.homeDirectory = "${homesRoot}/mikeyobrien";
+
+  # create the backup directory
+  home.file.".config/nvim/backup/.keep".text = "";
 
   home.packages = with pkgs; [
     fish

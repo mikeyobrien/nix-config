@@ -15,6 +15,10 @@ in
   environment.noXlibs = false;
   networking.dhcpcd.enable = false;
 
+  environment.systemPackages = with pkgs; [
+    gnumake
+  ];
+
   # WSL is closer to a container than anything else
 
   nix = {
@@ -28,12 +32,9 @@ in
 
   users.users.${defaultUser} = {
     isNormalUser = true;
+    shell = pkgs.fish;
     extraGroups = [ "wheel" ];
   };
-
-  users.extraUsers.${defaultUser} = {
-    shell = pkgs.fish;
-  };  
 
   users.users.root = {
     shell = "${syschdemd}/bin/syschdemd";
