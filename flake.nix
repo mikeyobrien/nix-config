@@ -42,8 +42,13 @@
       };
       "m1macbook" = darwin.lib.darwinSystem {
         modules = [
-          ./m1macbook/configuration.nix
+          ./hosts/m1macbook/configuration.nix
           home-manager.darwinModules.home-manager
+          {
+            home-manager.users.mikeyobrien = homeManagerCommonConfig;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          }
         ];
       };
     };

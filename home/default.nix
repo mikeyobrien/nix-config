@@ -2,7 +2,7 @@
 
 with builtins;
 let
-  homesRoot = "/home";
+  homesRoot = "/Users";
 in
 {
   imports = [
