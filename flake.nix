@@ -53,6 +53,7 @@
       "m1macbook" = darwin.lib.darwinSystem {
         modules = [
           ./hosts/m1macbook/configuration.nix
+          ./modules/brew.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.users.mikeyobrien = homeManagerCommonConfig;
