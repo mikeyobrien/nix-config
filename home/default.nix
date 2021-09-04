@@ -1,9 +1,6 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, config, locals, ... }:
 
 with builtins;
-let
-  homesRoot = "/Users/mikeyobrien";
-in
 {
   inherit lib;
   imports = [
@@ -33,8 +30,8 @@ in
   ];
 
   home.username = "mikeyobrien";
-  home.homeDirectory = "/Users/mikeyobrien";
-  home.sessionPath = [ "/Users/mikeyobrien/.emacs.d/bin" ];
+  home.homeDirectory = locals.homeDirectory;
+  home.sessionPath = [ "${locals.homeDirectory}/.emacs.d/bin" ];
   home.sessionVariables = {
     EDITOR = "nvim";
   };
@@ -73,8 +70,8 @@ in
 
   programs.git = {
     enable  = true;
-    userName = "Mikey O'Brien";
-    userEmail = "hmobrienv@gmail.com";
+    userName = locals.git.name;
+    userEmail = locals.git.email;
     aliases = {
       ca         = "commit --amend";
       changes    = "diff --name-status -r --color | diff-so-fancy";

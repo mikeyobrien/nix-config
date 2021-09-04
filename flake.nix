@@ -15,6 +15,7 @@
   outputs = inputs@{ self, darwin, home-manager, emacs, nixpkgs, ... }:
   let
     inherit (nixpkgs) lib;
+    
     homeManagerCommonConfig = with self.homeManagerModules; {
       imports = [ ./home ];
     };
@@ -42,19 +43,19 @@
       localSystem = "x86_64-darwin";
     };
 
-    mkDarwinSystem = { localConfig, modules }:
+    mkDarwinSystem = { locals, specialArgs, modules }:
       darwin.lib.darwinSystem {
+        inherit specialArgs;
         inputs = {
-          inherit darwin nixpkgs emacs home-manager;
-        };
-        specialArgs = {
-          pkgs = nixpkgsFor.aarch64-darwin;
-          pkgsX86 = nixpkgsX86darwin;
+          inherit darwin nixpkgs emacs home-manager locals;
         };
         modules = modules ++ [
           home-manager.darwinModules.home-manager
           {
-            home-manager.users.${localConfig.username} = homeManagerCommonConfig;
+            home-manager.users.${locals.username} = with self.homeManagerModules; {
+              _module.args.locals = locals;
+              imports = [ ./home ];
+            };
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           }
@@ -90,10 +91,15 @@
         ];
       };
       "m1macbook" = mkDarwinSystem {
-        localConfig = {
+        locals = {
           username = "mikeyobrien";
           git.name = "Mikey O'Brien";
           git.email  = "hmobrienv@gmail.com";
+          homeDirectory = "/Users/mikeyobrien";
+        };
+        specialArgs = {
+          pkgs = nixpkgsFor.aarch64-darwin;
+          pkgsX86 = nixpkgsX86darwin;
         };
         modules = [
           ./hosts/m1macbook/configuration.nix
