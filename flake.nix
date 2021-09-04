@@ -6,10 +6,19 @@
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
+
+    # overlays
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
+
+    # doom
+    doom-emacs = {
+      url = "github:hlissner/doom-emacs/develop";
+      flake = false;
+    };
   };
 
 
-  outputs = inputs@{ self, darwin, home-manager, nixpkgs, ... }:
+  outputs = inputs@{ self, darwin, home-manager, doom-emacs, nixpkgs, ... }:
   let
     homeManagerCommonConfig = with self.homeManagerModules; {
       imports = [ ./home ];
@@ -39,6 +48,7 @@
             home-manager.useUserPackages = true;
           }
         ];
+        inputs = { inherit doom-emacs; };
       };
       "m1macbook" = darwin.lib.darwinSystem {
         modules = [
@@ -51,6 +61,6 @@
           }
         ];
       };
-    };
   };
+};
 }

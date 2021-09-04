@@ -1,8 +1,9 @@
-{ config, pkgs, lib, system, ... }:
+{ config, pkgs, lib, system, doom-emacs, ... }:
 
 with builtins;
 let
   homesRoot = "/Users";
+  lock = builtins.fromJSON (builtins.readFile ../flake.lock);
 in
 {
   imports = [
@@ -32,6 +33,41 @@ in
     gopls
     direnv
   ];
+
+  # doom setup: https://discourse.nixos.org/t/advice-needed-installing-doom-emacs/8806/8
+  home = {
+    sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
+    sessionVariables = {
+      EMACSDIR = "${config.xdg.configHome}/emacs";
+      DOOMDIR = "${config.xdg.configHome}/doom-config";
+      DOOMLOCALDIR = "${config.xdg.configHome}/doom-local";
+    };
+  };
+
+  xdg = {
+    enable = true;
+    configFile = {
+      "doom-config/config.el".text = builtins.readFile ./doom.d/config.el;
+      "doom-config/init.el".text = builtins.readFile ./doom.d/init.el;
+      "doom-config/packages.el".text = builtins.readFile ./doom.d/packages.el;
+      "emacs" = {
+        source = builtins.fetchTarball {
+          url = "https://github.com/hlissner/doom-emacs/archive/refs/heads/develop.zip";
+          sha256 = "0fzjvd4qvch1lgp41djpzs96g1l4y82hil0nz3c6pg5skba72495";
+        };
+        onChange = "${pkgs.writeShellScript "doom-change" ''
+          export EMACSDIR="${config.home.sessionVariables.EMACSDIR}"
+          export DOOMDIR="${config.home.sessionVariables.DOOMDIR}"
+          export DOOMLOCALDIR="${config.home.sessionVariables.DOOMLOCALDIR}"
+          if [ ! -d "$DOOMLOCALDIR" ]; then
+            ${config.xdg.configHome}/emacs/bin/doom -y install
+          else
+            ${config.xdg.configHome}/emacs/bin/doom -y sync -u
+          fi
+        ''}";
+      };
+    };
+  };
 
   programs.bat.enable = true;
 

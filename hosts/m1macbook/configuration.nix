@@ -10,16 +10,12 @@
     home = "/Users/mikeyobrien";
   };
 
-  home-manager = {
-    useUserPackages = true;
-    useGlobalPkgs = true;
-    users.mikeyobrien = import ./home.nix;
-  };
-
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages =
-    [ pkgs.vim
+    [
+      pkgs.emacs
+      pkgs.vim
     ];
 
 
@@ -28,8 +24,8 @@
   # nix.package = pkgs.nix;
 
   # Create /etc/bashrc that loads the nix-darwin environment.
-  programs.zsh.enable = true;  # default shell on catalina
-  # programs.fish.enable = true;
+  # programs.zsh.enable = true;  # default shell on catalina
+  programs.fish.enable = true;
   environment.darwinConfig = "$HOME/.config/nix-macos/m1macbook/configuration.nix";
 
   # Used for backwards compatibility, please read the changelog before changing.
