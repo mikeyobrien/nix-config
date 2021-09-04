@@ -50,6 +50,7 @@
           inherit darwin nixpkgs emacs home-manager locals;
         };
         modules = modules ++ [
+          ./modules/brew.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.users.${locals.username} = with self.homeManagerModules; {
@@ -61,6 +62,7 @@
           }
        ];
     };
+
   in {
     nixosConfigurations.nixos =  nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -68,6 +70,9 @@
         ./hosts/nix-wsl/configuration.nix
         home-manager.nixosModules.home-manager
         {
+          home-manager.users.mikeyobrien = with self.homeManagerModules; {
+              imports = [ ./home ];
+          };
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
         }
@@ -76,22 +81,17 @@
 
     darwinConfigurations = {
       "mobrien-mbp19" = darwin.lib.darwinSystem {
-        inputs = {
-          inherit emacs;
-          isDarwin  = true;
+        locals = {  # config variables local to specific system
+          username = "mikeyobrien";
+          git.name = "Mikey O'Brien";
+          git.email  = "mobrien@vectra.ai";
+          homeDirectory = "/Users/mikeyobrien";
         };
-        modules = [
-          ./mobrien-mbp19/configuration.nix
-          ./modules/brew.nix
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          }
-        ];
+        specialArgs = {};
+        modules = [./mobrien-mbp19/configuration.nix ];
       };
       "m1macbook" = mkDarwinSystem {
-        locals = {
+        locals = {  # config variables local to specific system
           username = "mikeyobrien";
           git.name = "Mikey O'Brien";
           git.email  = "hmobrienv@gmail.com";
@@ -103,7 +103,6 @@
         };
         modules = [
           ./hosts/m1macbook/configuration.nix
-          ./modules/brew.nix
         ];
       };
   };
