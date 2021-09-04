@@ -16,8 +16,10 @@ in {
 
     # doom emacs dependencies
     home.packages = with pkgs; [
+      gopls
       sbcl
       clojure-lsp
+      emacs-all-the-icons-fonts
     ];
   };
 }

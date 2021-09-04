@@ -13,6 +13,6 @@
   programs.fish.enable = true;
   modules.brew.enable = true;
 
-  services.nix-daemon.enable = true;
+  services.nix-daemon.enable = false;
   system.stateVersion = 4;
 }

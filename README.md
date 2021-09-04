@@ -14,12 +14,11 @@ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 
-# Requirements
-A working install of [nix](https://nixos.org/download.html) + [nix-darwin](https://github.com/LnL7/nix-darwin)
-
+A working install of [nix](https://nixos.org/download.html) + [nix-darwin](https://github.com/LnL7/nix-darwin) (if on macOS)
 ``` shell
 # install nix
-curl -L https://nixos.org/nix/install | sh
+curl -L https://nixos.org/nix/install | sh -s -- --no-daemon
+nix-env -iA nixpkgs.nixUnstable  # Get flakes
 
 # install nix-darwin
 nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
@@ -28,7 +27,7 @@ nix-build https://github.com/LnL7/nix-darwin/archive/master.tar.gz -A installer
 
 # Activate using flakes
 
-``` shell               
+``` shell
 # NixOS
 make rebuild-switch
 

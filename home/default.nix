@@ -27,7 +27,6 @@ in
     bat
     diff-so-fancy
     thefuck
-    gopls
     direnv
     delta
   ];
