@@ -1,25 +1,17 @@
-{ config, pkgs, lib, system, doom-emacs, ... }:
+{ config, pkgs, lib, system, emacs, ... }:
 
 with builtins;
 let
   homesRoot = "/Users/mikeyobrien";
-  lock = builtins.fromJSON (builtins.readFile ../flake.lock);
 in
 {
   imports = [
     ./neovim.nix
     ./fish.nix
+    ./modules/emacs.nix
   ];
 
   programs.home-manager.enable = true;
-
-  home.username = "mikeyobrien";
-  home.homeDirectory = "${homesRoot}";
-  home.sessionPath = [ "${homesRoot}/.emacs.d/bin" ];
-  home.sessionVariables = {
-    EDITOR = "nvim";
-    DOOMDIR = "${config.xdg.configHome}/doom-config";
-  };
 
   # create the backup directory
   home.file.".config/nvim/backup/.keep".text = "";
@@ -34,12 +26,18 @@ in
     fd
     bat
     diff-so-fancy
-    clojure-lsp
     thefuck
     gopls
     direnv
     delta
   ];
+
+  home.username = "mikeyobrien";
+  home.homeDirectory = "/Users/mikeyobrien";
+  home.sessionPath = [ "/Users/mikeyobrien/.emacs.d/bin" ];
+  home.sessionVariables = {
+    EDITOR = "nvim";
+  };
 
   xdg = {
     enable = true;
@@ -53,9 +51,9 @@ in
   programs.bat.enable = true;
   programs.direnv.enable = true;
 
-
   programs.emacs = {
     enable = true;
+    doomDir = "${config.xdg.configHome}/doom-config";
   };
 
   programs.fzf = {

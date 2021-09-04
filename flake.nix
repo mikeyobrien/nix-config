@@ -8,20 +8,38 @@
     home-manager.url = "github:nix-community/home-manager";
 
     # overlays
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-
-    # doom
-    doom-emacs = {
-      url = "github:hlissner/doom-emacs/develop";
-      flake = false;
-    };
+    emacs.url = "github:nix-community/emacs-overlay";
   };
 
 
-  outputs = inputs@{ self, darwin, home-manager, doom-emacs, nixpkgs, ... }:
+  outputs = inputs@{ self, darwin, home-manager, emacs, nixpkgs, ... }:
   let
+    inherit (nixpkgs) lib;
     homeManagerCommonConfig = with self.homeManagerModules; {
       imports = [ ./home ];
+    };
+
+    platforms = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    forAllPlatforms = f: lib.genAttrs platforms (platform: f platform);
+    nixpkgsFor = forAllPlatforms (platform: import nixpkgs {
+      system = platform;
+      overlays = builtins.concatLists [
+        (lib.optional (platform == "aarch64-darwin")
+        # Apple Silicon backport overlay:
+        # In other words, x86 packages to install instead of
+        # arm packages which don't build yet for any reason
+        (self: super: {
+          # This is bad for libraries but okay for programs.
+          # See: https://github.com/LnL7/nix-darwin/issues/334#issuecomment-850857148
+          # For libs, I will use pkgsX86 defined below.
+          inherit (nixpkgsX86darwin) kitty nixfmt clojure-lsp;
+        }))
+      ];
+      config.allowUnfree = true;
+    });
+
+    nixpkgsX86darwin = import nixpkgs {
+      localSystem = "x86_64-darwin";
     };
   in {
     nixosConfigurations.nixos =  nixpkgs.lib.nixosSystem {
@@ -39,8 +57,13 @@
 
     darwinConfigurations = {
       "mobrien-mbp19" = darwin.lib.darwinSystem {
+        inputs = {
+          inherit emacs;
+          isDarwin  = true;
+        };
         modules = [
           ./mobrien-mbp19/configuration.nix
+          ./modules/brew.nix
           home-manager.darwinModules.home-manager
           {
             home-manager.users.mikeyobrien = homeManagerCommonConfig;
@@ -48,9 +71,12 @@
             home-manager.useUserPackages = true;
           }
         ];
-        inputs = { inherit doom-emacs; };
       };
       "m1macbook" = darwin.lib.darwinSystem {
+        inputs = {
+          inherit emacs;
+          isDarwin = true;
+        };
         modules = [
           ./hosts/m1macbook/configuration.nix
           ./modules/brew.nix
@@ -61,6 +87,10 @@
             home-manager.useUserPackages = true;
           }
         ];
+        specialArgs = {
+          pkgs = nixpkgsFor.aarch64-darwin;
+          pkgsX86 = nixpkgsX86darwin;
+        };
       };
   };
 };
