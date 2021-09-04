@@ -41,6 +41,25 @@
     nixpkgsX86darwin = import nixpkgs {
       localSystem = "x86_64-darwin";
     };
+
+    mkDarwinSystem = { localConfig, modules }:
+      darwin.lib.darwinSystem {
+        inputs = {
+          inherit darwin nixpkgs emacs home-manager;
+        };
+        specialArgs = {
+          pkgs = nixpkgsFor.aarch64-darwin;
+          pkgsX86 = nixpkgsX86darwin;
+        };
+        modules = modules ++ [
+          home-manager.darwinModules.home-manager
+          {
+            home-manager.users.${localConfig.username} = homeManagerCommonConfig;
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          }
+       ];
+    };
   in {
     nixosConfigurations.nixos =  nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -48,7 +67,6 @@
         ./hosts/nix-wsl/configuration.nix
         home-manager.nixosModules.home-manager
         {
-          home-manager.users.mikeyobrien = homeManagerCommonConfig;
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
         }
@@ -66,31 +84,21 @@
           ./modules/brew.nix
           home-manager.darwinModules.home-manager
           {
-            home-manager.users.mikeyobrien = homeManagerCommonConfig;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           }
         ];
       };
-      "m1macbook" = darwin.lib.darwinSystem {
-        inputs = {
-          inherit emacs;
-          isDarwin = true;
+      "m1macbook" = mkDarwinSystem {
+        localConfig = {
+          username = "mikeyobrien";
+          git.name = "Mikey O'Brien";
+          git.email  = "hmobrienv@gmail.com";
         };
         modules = [
           ./hosts/m1macbook/configuration.nix
           ./modules/brew.nix
-          home-manager.darwinModules.home-manager
-          {
-            home-manager.users.mikeyobrien = homeManagerCommonConfig;
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          }
         ];
-        specialArgs = {
-          pkgs = nixpkgsFor.aarch64-darwin;
-          pkgsX86 = nixpkgsX86darwin;
-        };
       };
   };
 };

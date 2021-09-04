@@ -1,10 +1,11 @@
-{ config, pkgs, lib, system, emacs, ... }:
+{ config, pkgs, lib, ... }:
 
 with builtins;
 let
   homesRoot = "/Users/mikeyobrien";
 in
 {
+  inherit lib;
   imports = [
     ./neovim.nix
     ./fish.nix
@@ -72,6 +73,8 @@ in
 
   programs.git = {
     enable  = true;
+    userName = "Mikey O'Brien";
+    userEmail = "hmobrienv@gmail.com";
     aliases = {
       ca         = "commit --amend";
       changes    = "diff --name-status -r --color | diff-so-fancy";
