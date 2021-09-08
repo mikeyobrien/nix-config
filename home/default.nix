@@ -12,6 +12,7 @@ with builtins;
 
   # create the backup directory
   home.file.".config/nvim/backup/.keep".text = "";
+  home.file.".doom.d".source = config.lib.file.mkOutOfStoreSymlink ./doom.d;
 
   home.packages = with pkgs; [
     # staging before
