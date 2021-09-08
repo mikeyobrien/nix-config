@@ -1,8 +1,13 @@
 ;;; .doom.d/config.el -*- lexical-binding: t; -*-
 ;; Place your private configuration here
-;(load! "lisp/lib")
-;(load! "lisp/ui")
-;(load! "lisp/aws")
+(load! "lisp/lib")
+(load! "lisp/ui")
+(load! "lisp/aws")
+
+;; Experimental Settings
+(setq global-flycheck-mode t)
+(setq evil-snipe-scope 'buffer)
+;; Experimental End
 
 (setq user-full-name "mobrien"
       user-mail-address "hmobrienv@gmail.com")
@@ -53,14 +58,11 @@
 (if (equal (system-name) "mobrien-mbp19.local")
     (progn
       (setq work-laptop t)
-      (setq doom-font (font-spec :family "Iosevka Term" :size 16))
       (setq user-mail-address "mobrien@vectra.ai")
       (setq magit-repository-directories '(("~/vectra/" . 1)))
       (load! "lisp/vectra"))
   (setq work-laptop nil))
 
-(if (string-equal (system-name) "devmachine")
-    (setq doom-font (font-spec :family "Iosevka" :size 18)))
 (evil-set-initial-state 'awstk-s3-bucket-mode 'normal)
 
 ;; wsl
@@ -85,7 +87,7 @@
 (unless window-system
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
   (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
-(setq require-final-newline nil)
+;(setq require-final-newline nil)
 
 
 ;; elfeed
@@ -104,7 +106,11 @@
     :group 'elfeed)
   (defface elfeed-show-author-face `((t (:weight light)))
     "title face in elfeed show buffer"
-    :group 'elfeed))
+    :group 'elfeed)
+  (if (eq nil work-laptop)
+      (setq elfeed-feeds (append elfeed-feeds
+                                 '(("https://jenkins.vectra.io/view/SaaS%20Platform/job/terraform_apply_saas-platform/rssAll" vectra)
+                                   ("https://jenkins.vectra.io/view/SaaS%20Platform/job/verify.data_analytics.multi/job/master/rssAll" vectra))))))
 
 
 ;; wakatime
@@ -117,6 +123,35 @@
 (map! :leader
       (:desc "open elfeed" "o e" #'=rss)
       (:desc "open eterm"  "o t" #'+vterm/toggle))
+
+;; smerge
+(defun smerge-repeatedly ()
+  "Perform smerge actions again and again"
+  (interactive)
+  (smerge-mode 1)
+  (smerge-transient))
+(after! transient
+  (transient-define-prefix smerge-transient ()
+    [["Move"
+      ("n" "next" (lambda () (interactive) (ignore-errors (smerge-next)) (smerge-repeatedly)))
+      ("p" "previous" (lambda () (interactive) (ignore-errors (smerge-prev)) (smerge-repeatedly)))]
+     ["Keep"
+      ("b" "base" (lambda () (interactive) (ignore-errors (smerge-keep-base)) (smerge-repeatedly)))
+      ("u" "upper" (lambda () (interactive) (ignore-errors (smerge-keep-upper)) (smerge-repeatedly)))
+      ("l" "lower" (lambda () (interactive) (ignore-errors (smerge-keep-lower)) (smerge-repeatedly)))
+      ("a" "all" (lambda () (interactive) (ignore-errors (smerge-keep-all)) (smerge-repeatedly)))
+      ("RET" "current" (lambda () (interactive) (ignore-errors (smerge-keep-current)) (smerge-repeatedly)))]
+     ["Diff"
+      ("<" "upper/base" (lambda () (interactive) (ignore-errors (smerge-diff-base-upper)) (smerge-repeatedly)))
+      ("=" "upper/lower" (lambda () (interactive) (ignore-errors (smerge-diff-upper-lower)) (smerge-repeatedly)))
+      (">" "base/lower" (lambda () (interactive) (ignore-errors (smerge-diff-base-lower)) (smerge-repeatedly)))
+      ("R" "refine" (lambda () (interactive) (ignore-errors (smerge-refine)) (smerge-repeatedly)))
+      ("E" "ediff" (lambda () (interactive) (ignore-errors (smerge-ediff)) (smerge-repeatedly)))]
+     ["Other"
+      ("c" "combine" (lambda () (interactive) (ignore-errors (smerge-combine-with-next)) (smerge-repeatedly)))
+      ("r" "resolve" (lambda () (interactive) (ignore-errors (smerge-resolve)) (smerge-repeatedly)))
+      ("k" "kill current" (lambda () (interactive) (ignore-errors (smerge-kill-current)) (smerge-repeatedly)))
+      ("q" "quit" (lambda () (interactive) (smerge-auto-leave)))]]))
 
 ;; shell stuff
 (defalias 'v 'eshell-exec-visual)
@@ -154,8 +189,6 @@
                     :server-id 'terraform-ls)))
 
 (add-hook 'terraform-mode-hook #'lsp)
-(add-hook 'go-mode-lsp-ui-hook
-          #'mobrien-go-flycheck-setup)
 
 ;; treemacs
 (after! treemacs
@@ -197,6 +230,12 @@
 ;; (with-eval-after-load 'flycheck
 
 ;;  (flycheck-add-mode 'proselint 'org-mode))
+;;
+(after! company
+  (setq company-idle-delay 0.5
+        company-minimum-prefix-length 2)
+  (setq company-show-numbers t)
+  (add-hook 'evil-normal-state-entry-hook #'company-abort))
 
 ;; tramps
 (setq tramp-default-method "ssh")
@@ -516,65 +555,81 @@ Not added when either:
 
   (add-hook 'focus-out-hook 'save-all))
 
-(use-package! org-roam
-  :commands (org-roam-insert org-roam-find-file org-roam org-roam-switch-to-buffer)
-  :hook
-  (after-init . org-roam-mode)
-  :init
-  (setq org-roam-directory (file-truename "~/org/braindump")
+
+(setq org-roam-directory (file-truename "~/org/braindump")
         org-roam-db-location (file-truename "~/org/org-roam.db")
         org-roam-graph-viewer (lambda (file)
                                 (call-process "open" nil t nil "-a" "safari" file))
         org-roam-graph-extra-config '(("concentrate" . "true"))
         org-roam-graph-exclude-matcher '("daily" "private")
         +org-roam-open-buffer-on-find-file nil)
-  (map! :leader
-        :prefix "n"
-        :desc "org-roam-insert" "i" #'org-roam-insert
-        :desc "org-roam-find"   "/" #'org-roam-find-file
-        :desc "org-roam-dailies-capture-today" "j" #'org-roam-dailies-capture-today
-        :desc "org-roam-dailies-today" "t" #'org-roam-dailies-today
-        :desc "org-roam-find-file" "f" #'org-roam-find-file
-        :desc "org-roam-capture" "c" #'org-roam-capture)
-  ;;       :desc "org-roam-buffer" "r" #'org-roam
-  ;;       :desc "org-roam-capture" "c" #'org-roam-capture)
+
+
+;; (after! org-roam
+;;   :commands (org-roam-insert org-roam-find-file org-roam org-roam-switch-to-buffer)
+;;   :hook
+;;   (after-init . org-roam-mode)
+;;   :init
+;;     (map! :leader
+;;         :prefix "n"
+;;         :desc "org-roam-insert" "i" #'org-roam-insert
+;;         :desc "org-roam-find"   "/" #'org-roam-find-file
+;;         :desc "org-roam-dailies-capture-today" "j" #'org-roam-dailies-capture-today
+;;         :desc "org-roam-dailies-today" "t" #'org-roam-dailies-today
+;;         :desc "org-roam-find-file" "f" #'org-roam-find-file
+;;         :desc "org-roam-capture" "c" #'org-roam-capture)
+;;   ;;       :desc "org-roam-buffer" "r" #'org-roam
+;;   ;;       :desc "org-roam-capture" "c" #'org-roam-capture)
+;;   :config
+;;   (require 'org-roam-protocol)
+;;   (org-roam-mode +1)
+;;   (setq org-roam-capture-templates
+;;         '(("d" "default" plain (function org-roam--capture-get-point)
+;;            "%?"
+;;            :file-name "${slug}"
+;;            :head "#+SETUPFILE:./hugo_setup.org
+;; #+HUGO_SECTION: zettels
+;; #+HUGO_SLUG: ${slug}
+;; #+TITLE: ${title}\n"
+;;            :unnarrowed t)
+;;           ("v" "vectra" plain (function org-roam--capture-get-point)
+;;            "%?"
+;;            :file-name "${slug}"
+;;            :head "#+SETUPFILE:./hugo_setup.org
+;; #+HUGO_SECTION: zettels
+;; #+HUGO_SLUG: ${slug}
+;; #+TITLE: ${title}\n
+;; #+ROAM_TAGS: vectra "
+;;            :unnarrowed t)
+;;           ("p" "private" plain (function org-roam-capture--get-point)
+;;            "%?"
+;;            :file-name "private-${slug}"
+;;            :head "#+TITLE: ${title}\n"
+;;            :unnarrowed t)
+;;           ("r" "ref" plain (function org-roam-capture--get-point)
+;;            "%?"
+;;            :file-name "websites/${slug}"
+;;            :head "#+SETUPFILE:./hugo_setup.org
+;; #+ROAM_KEY: ${ref}
+;; #+HUGO_SLUG: ${slug}
+;; #+TITLE: ${title}
+;; - source :: ${ref}"
+;;            :unnarrowed t))))
+
+(use-package! websocket
+  :after org-roam)
+
+(use-package! org-roam-ui
+  :after org-roam
+  :commands org-roam-ui-open
+  :hook (org-roam . org-roam-ui-mode)
   :config
-  (require 'org-roam-protocol)
-  (org-roam-mode +1)
-  (setq org-roam-capture-templates
-        '(("d" "default" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "${slug}"
-           :head "#+SETUPFILE:./hugo_setup.org
-#+HUGO_SECTION: zettels
-#+HUGO_SLUG: ${slug}
-#+TITLE: ${title}\n"
-           :unnarrowed t)
-          ("v" "vectra" plain (function org-roam--capture-get-point)
-           "%?"
-           :file-name "${slug}"
-           :head "#+SETUPFILE:./hugo_setup.org
-#+HUGO_SECTION: zettels
-#+HUGO_SLUG: ${slug}
-#+TITLE: ${title}\n
-#+ROAM_TAGS: vectra "
-           :unnarrowed t)
-          ("p" "private" plain (function org-roam-capture--get-point)
-           "%?"
-           :file-name "private-${slug}"
-           :head "#+TITLE: ${title}\n"
-           :unnarrowed t)
-          ("r" "ref" plain (function org-roam-capture--get-point)
-           "%?"
-           :file-name "websites/${slug}"
-           :head "#+SETUPFILE:./hugo_setup.org
-#+ROAM_KEY: ${ref}
-#+HUGO_SLUG: ${slug}
-#+TITLE: ${title}
-- source :: ${ref}"
-           :unnarrowed t))))
-
-
+  (require 'org-roam) ; in case autoloaded
+  (defun org-roam-ui-open ()
+    "Ensure the server is active, then open the roam graph."
+    (interactive)
+    (unless org-roam-ui-mode (org-roam-ui-mode 1))
+    (call-process "open" nil t nil "-a" "safari" (format "http://localhost:%d" org-roam-ui-port))))
 
 ;; org roam export
 (defun my/org-roam--backlinks-list (file)
