@@ -6,7 +6,6 @@ with builtins;
   imports = [
     ./neovim.nix
     ./fish.nix
-    ./modules/emacs.nix
   ];
 
   programs.home-manager.enable = true;
@@ -15,7 +14,7 @@ with builtins;
   home.file.".config/nvim/backup/.keep".text = "";
 
   home.packages = with pkgs; [
-    fish
+    # staging before
     starship
     htop
     jetbrains-mono
@@ -36,22 +35,8 @@ with builtins;
     EDITOR = "nvim";
   };
 
-  xdg = {
-    enable = true;
-    configFile = {
-      "doom-config/config.el".text = builtins.readFile ./doom.d/config.el;
-      "doom-config/init.el".text = builtins.readFile ./doom.d/init.el;
-      "doom-config/packages.el".text = builtins.readFile ./doom.d/packages.el;
-    };
-  };
-
   programs.bat.enable = true;
   programs.direnv.enable = true;
-
-  programs.emacs = {
-    enable = true;
-    doomDir = "${config.xdg.configHome}/doom-config";
-  };
 
   programs.fzf = {
     enable = true;

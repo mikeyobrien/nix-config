@@ -6,11 +6,18 @@ in {
     enable = mkEnableOption "Homebrew";
     taps = mkOption {
       type = types.listOf types.str;
-      default = [ "homebrew/core" "homebrew/cask" ];
+      default = [ 
+        "homebrew/core"
+        "homebrew/cask"
+        "homebrew/bundle"
+        "homebrew/services"
+        "d12frosted/emacs-plus"
+      ];
     };
     brews = mkOption {
       type = types.listOf types.str;
-      default = [ ];
+      default = [
+      ];
     };
     casks = mkOption {
       type = types.listOf types.str;
@@ -19,20 +26,19 @@ in {
 
     extraConfig = mkOption {
       type = types.lines;
-      default = ''
-        cask "firefox", args: { language: "en-CA" }
-      '';
+      default = "";
     };
   };
 
   config = mkIf cfg.enable {
     homebrew.enable = true;
     homebrew.autoUpdate = true;
-    homebrew.cleanup = "zap";
+    homebrew.cleanup = "none";
     homebrew.global.brewfile = true;
     homebrew.global.noLock = true;
     homebrew.taps = cfg.taps;
     homebrew.brews = cfg.brews;
     homebrew.casks = cfg.casks;
+    homebrew.extraConfig = cfg.extraConfig;
   };
 }

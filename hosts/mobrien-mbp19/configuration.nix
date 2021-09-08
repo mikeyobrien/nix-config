@@ -1,34 +1,28 @@
 { config, pkgs, lib, home-manager, ... }:
 
 {
-  environment.darwinConfig = "$HOME/.config/nix-macos/mobrien-mbp19/configuration.nix";
+  imports = [
+    ../macos-defaults.nix
+  ];
 
-  nix.package = pkgs.nixFlakes;
-  nix.extraOptions = lib.optionalString (config.nix.package == pkgs.nixFlakes)
-    "experimental-features = nix-command flakes";
-
-  nix.trustedUsers = [ "mikeyobrien" "@admin" ];
-
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-    };
-  };
-
-  users = {
-    users.mikeyobrien = {
-      name = "mikeyobrien";
-      home = "/Users/mikeyobrien";
-    };
-  };
-
+  environment.darwinConfig = "$HOME/.config/nix-macos/hosts/mobrien-mbp19/configuration.nix";
   environment.systemPackages = with pkgs; [
+    cachix
     fish
     zsh
     bashInteractive
+    apacheKafka
   ];
 
-  programs.zsh.enable = true;
+  modules.brew = {
+    brews = [
+      "pulumi"
+      "tfenv"
+    ];
+  };
+
+  services.kubernetes.enable = true;
+
   programs.fish.enable = true;
   programs.fish.useBabelfish = true;
   programs.fish.babelfishPackage = pkgs.babelfish;
@@ -41,6 +35,7 @@
     end
   '';
   environment.variables.SHELL = "${pkgs.fish}/bin/fish";
+  environment.variables.DOOMDIR = "$HOME/.doom.d";
 
   system.stateVersion = 4;
 }

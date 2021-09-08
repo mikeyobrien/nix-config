@@ -5,10 +5,24 @@ with builtins;
   nix.package = pkgs.nixFlakes;
   nix.extraOptions = lib.optionalString (config.nix.package == pkgs.nixFlakes)
     "experimental-features = nix-command flakes";
+  nixpkgs = {
+    config.allowUnfree = true;
+  };
 
   users.users.mikeyobrien = {
     name = "mikeyobrien";
     home = "/Users/mikeyobrien";
+  };
+
+  modules.brew = {
+    enable = true;
+    casks = [
+      "iterm2"
+      "docker"
+    ];
+    extraConfig = ''
+      brew "emacs-plus@28", args: ["with-native-comp", "with-no-titlebar"]
+    '';
   };
 
   services.yabai = {

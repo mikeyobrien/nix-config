@@ -15,7 +15,7 @@
   outputs = inputs@{ self, darwin, home-manager, emacs, nixpkgs, ... }:
   let
     inherit (nixpkgs) lib;
-    
+
     homeManagerCommonConfig = with self.homeManagerModules; {
       imports = [ ./home ];
     };
@@ -50,8 +50,9 @@
           inherit darwin nixpkgs emacs home-manager locals;
         };
         modules = modules ++ [
-          ./modules/brew.nix
           home-manager.darwinModules.home-manager
+          ./modules/brew.nix
+          ./modules/k8s.nix
           {
             home-manager.users.${locals.username} = with self.homeManagerModules; {
               _module.args.locals = locals;
@@ -80,7 +81,7 @@
     };
 
     darwinConfigurations = {
-      "mobrien-mbp19" = darwin.lib.darwinSystem {
+      "mobrien-mbp19" = mkDarwinSystem {
         locals = {  # config variables local to specific system
           username = "mikeyobrien";
           git.name = "Mikey O'Brien";
@@ -88,7 +89,7 @@
           homeDirectory = "/Users/mikeyobrien";
         };
         specialArgs = {};
-        modules = [./mobrien-mbp19/configuration.nix ];
+        modules = [./hosts/mobrien-mbp19/configuration.nix ];
       };
       "m1macbook" = mkDarwinSystem {
         locals = {  # config variables local to specific system

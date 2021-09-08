@@ -14,6 +14,8 @@ in {
       DOOMDIR = cfg.doomDir;
     };
 
+    home.file.${cfg.doomDir}.source = config.lib.file.mkOutOfStoreSymlink ../doom.d;
+
     # doom emacs dependencies
     home.packages = with pkgs; [
       gopls

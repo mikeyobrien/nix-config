@@ -11,7 +11,9 @@
       vi   = "nvim";
     };
     shellAbbrs = {
+      k = "kubectl";
       tf = "terraform";
+      mk = "minikube kubectl --";
       gc = "git commit";
       gco = "git checkout";
       gcm = "git commit -m";
