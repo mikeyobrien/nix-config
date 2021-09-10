@@ -16,6 +16,9 @@ with builtins;
 
   home.packages = with pkgs; [
     # staging before
+    black
+    pandoc
+
     starship
     htop
     jetbrains-mono
