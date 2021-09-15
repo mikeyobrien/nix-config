@@ -19,6 +19,8 @@ with builtins;
     black
     pandoc
 
+    nodejs
+
     starship
     htop
     jetbrains-mono
@@ -30,6 +32,11 @@ with builtins;
     thefuck
     direnv
     delta
+    jq
+    git-lfs
+
+    # language servers
+    rnix-lsp
   ];
 
   home.username = "mikeyobrien";

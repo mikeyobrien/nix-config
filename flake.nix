@@ -17,7 +17,7 @@
     inherit (nixpkgs) lib;
 
     homeManagerCommonConfig = with self.homeManagerModules; {
-      imports = [ ./home ];
+      imports = [ ./home ]jkj;
     };
 
     platforms = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
@@ -43,9 +43,9 @@
       localSystem = "x86_64-darwin";
     };
 
-    mkDarwinSystem = { locals, specialArgs, modules }:
+    mkDarwinSystem = { locals, specialArgs, modules, system }:
       darwin.lib.darwinSystem {
-        inherit specialArgs;
+        inherit specialArgs system;
         inputs = {
           inherit darwin nixpkgs emacs home-manager locals;
         };
@@ -82,6 +82,7 @@
 
     darwinConfigurations = {
       "mobrien-mbp19" = mkDarwinSystem {
+        system = "x86_64-darwin";
         locals = {  # config variables local to specific system
           username = "mikeyobrien";
           git.name = "Mikey O'Brien";
@@ -92,6 +93,7 @@
         modules = [./hosts/mobrien-mbp19/configuration.nix ];
       };
       "m1macbook" = mkDarwinSystem {
+        system = "aarch64-darwin";
         locals = {  # config variables local to specific system
           username = "mikeyobrien";
           git.name = "Mikey O'Brien";

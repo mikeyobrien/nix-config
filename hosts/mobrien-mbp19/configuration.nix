@@ -12,6 +12,11 @@
     zsh
     bashInteractive
     apacheKafka
+
+    go
+    gopls
+    ffmpeg
+    gifsicle
   ];
 
   modules.brew = {
