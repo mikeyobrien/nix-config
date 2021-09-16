@@ -24,14 +24,16 @@
       nvim-colorizer-lua
       plenary-nvim
       telescope-nvim
+      telescope-coc-nvim
       telescope-project-nvim
       hop-nvim
     ];
     extraConfig = ''
       let g:vim_home_path = "~/.config/nvim"
       let g:terraform_fmt_on_save = 1
+      let g:startify_change_to_vcs_root = 0
 
-      let mapleader=";"
+      let mapleader=" "
       set cmdheight=2
       set termguicolors
       set mouse=a
@@ -122,17 +124,19 @@
       map j gj
       map k gk
 
-      " Symbol renaming.
-      nmap <leader>rn <Plug>(coc-rename)
       nmap <leader>cd :cd %:h<CR>
       nmap <leader>lcd :lcd %:h<CR>
-      nmap <leader>tcd :Tcd %:h<CR>| "requires Tcd Plugin
+
+      " Symbol renaming.
+      nmap <leader>rn <Plug>(coc-rename)
 
       " Formatting selected code.
       xmap <leader>f  <Plug>(coc-format-selected)
       nmap <leader>f  <Plug>(coc-format-selected)
 
       nmap <silent> <leader>nix :e ~/.config/nix-macos/<CR>
+      nmap <silent> <leader>vimrc :e ~/.config/nix-macos/home/neovim.nix<CR>
+
 
       " Easier split navigation
       nnoremap <C-j> <C-w>j
@@ -175,9 +179,11 @@
 
       " Telescope
       " lua require'telescope'.extensions.project.project{}
-      nnoremap <silent><C-p> <cmd>lua require('telescope').extensions.project.project{}<cr>
+      lua require'telescope'.load_extension('coc')
 
-      " Using Lua functions
+      nnoremap <silent><leader>pF <cmd>lua require('telescope').extensions.project.project{}<cr>
+
+      nnoremap <leader><leader> <cmd>Telescope git_files<cr>
       nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
       nnoremap <leader>fb <cmd>lua require('telescope.builtin').file_browser()<cr>
       nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
@@ -197,27 +203,26 @@
 
       nnoremap <leader>!  <cmd>lua require('telescope.builtin').command_history()<cr>
 
-      nnoremap <leader>cr <cmd>lua require('telescope.builtin').lsp_references()<cr>
-      nnoremap <leader>ca <cmd>lua require('telescope.builtin').lsp_code_actions()<cr>
-      nnoremap <leader>ci <cmd>lua require('telescope.builtin').lsp_implementations()<cr>
-      nnoremap <leader>cd <cmd>lua require('telescope.builtin').lsp_definitions()<cr>
-      nnoremap <leader>ct <cmd>lua require('telescope.builtin').lsp_type_definitions()<cr>
-
-      " NerdTree
-      let g:NERDTreeUseTCD = 1
-      nnoremap <leader>n :NERDTreeFocus<CR>
-      nnoremap <C-n> :NERDTree<CR>
-      nnoremap <C-t> :NERDTreeToggle<CR>
-      nnoremap <C-f> :NERDTreeFind<CR>
-
+      nnoremap <leader>cr <cmd>Telescope coc references<cr>
+      nnoremap <leader>ca <cmd>Telescope coc code_actions<cr>
+      nnoremap <leader>ci <cmd>Telescope coc implementations<cr>
+      nnoremap <leader>cd <cmd>Telescope coc definitions<cr>
+      nnoremap <leader>ct <cmd>Telescope coc type_definitions<cr>
+      nnoremap <leader>cm <cmd>Telescope coc mru<cr>k
 
       " nvim colorizer
       lua require'colorizer'.setup()
+
+      "nvim web devicons
+      lua require'nvim-web-devicons'.setup();
 
       " hop-nvim
       lua require'hop'.setup()
       nmap s <cmd>HopChar2<cr>
       nmap <leader>j <cmd>HopLine<cr>
+
+      " tabs
+      nnoremap <leader><tab><tab> <cmd>tabs<cr>
     '';
     coc = {
       enable = true;
