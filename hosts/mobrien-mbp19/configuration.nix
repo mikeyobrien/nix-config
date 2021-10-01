@@ -5,6 +5,7 @@
     ../macos-defaults.nix
   ];
 
+
   environment.darwinConfig = "$HOME/.config/nix-macos/hosts/mobrien-mbp19/configuration.nix";
   environment.systemPackages = with pkgs; [
     cachix

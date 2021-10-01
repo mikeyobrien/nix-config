@@ -63,6 +63,15 @@ with builtins;
     '';
   };
 
+
+  fonts.fonts = with pkgs; [
+    iosevka
+    fira-code
+    fira-code-symbols
+    nerdfonts
+    powerline-fonts
+  ];
+
   services.skhd.enable = true;
   services.skhd.skhdConfig = builtins.readFile ../dotfiles/skhdrc;
 }
