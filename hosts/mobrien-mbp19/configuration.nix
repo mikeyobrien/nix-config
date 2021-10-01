@@ -19,11 +19,19 @@
     gifsicle
   ];
 
-  modules.brew = {
+modules.brew = {
+    enable = true;
+    casks = [
+      "iterm2"
+      "docker"
+    ];
     brews = [
       "pulumi"
       "tfenv"
     ];
+    extraConfig = ''
+      brew "emacs-plus@28", args: ["with-native-comp", "with-no-titlebar"]
+    '';
   };
 
   services.kubernetes.enable = true;

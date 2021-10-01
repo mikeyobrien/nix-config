@@ -1,4 +1,4 @@
-{ config, pkgs, lib, home-manager, ... }:
+{ config, pkgs, lib, home-manager, locals, ... }:
 
 {
   imports = [
@@ -11,7 +11,7 @@
   ];
 
   programs.fish.enable = true;
-  modules.brew.enable = true;
+  # modules.brew.enable = true;
 
   services.nix-daemon.enable = false;
   system.stateVersion = 4;

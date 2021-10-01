@@ -14,17 +14,6 @@ with builtins;
     home = "/Users/mikeyobrien";
   };
 
-  modules.brew = {
-    enable = true;
-    casks = [
-      "iterm2"
-      "docker"
-    ];
-    extraConfig = ''
-      brew "emacs-plus@28", args: ["with-native-comp", "with-no-titlebar"]
-    '';
-  };
-
   services.yabai = {
     enable = true;
     package = pkgs.yabai;
