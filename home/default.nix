@@ -13,11 +13,14 @@ with builtins;
   # create the backup directory
   home.file.".config/nvim/backup/.keep".text = "";
   home.file.".doom.d".source = config.lib.file.mkOutOfStoreSymlink ./doom.d;
+  home.file.".config/sxhkd/sxhkdrc".source = configs/sxhkd/sxhkdrc;
+  home.file.".config/bspwm/bspwmrc".source = configs/bspwm/bspwmrc;
 
   home.packages = with pkgs; [
     # staging before
     black
     pandoc
+    alacritty
 
     nodejs
 
