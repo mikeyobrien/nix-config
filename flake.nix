@@ -17,7 +17,7 @@
     inherit (nixpkgs) lib;
 
     homeManagerCommonConfig = with self.homeManagerModules; {
-      imports = [ ./home ]jkj;
+      imports = [ ./home ];
     };
 
     platforms = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
@@ -64,6 +64,12 @@
        ];
     };
 
+    squidLocals = {         
+        username = "mikeyobrien";
+        git.name = "Mikey O'Brien";
+        git.email  = "mobrien@vectra.ai";
+        homeDirectory = "/home/mikeyobrien";
+    };
   in {
     nixosConfigurations.nixos =  nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -79,6 +85,23 @@
         }
       ];
     };
+
+    nixosConfigurations.squid =  nixpkgs.lib.nixosSystem {
+      system = "x86_64-linux";
+      modules = [
+        ./hosts/squid/configuration.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.users.mikeyobrien = with self.homeManagerModules; {
+              _module.args.locals = squidLocals;
+              imports = [ ./home ];
+          };
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+      ];
+    };
+
 
     darwinConfigurations = {
       "mobrien-mbp19" = mkDarwinSystem {

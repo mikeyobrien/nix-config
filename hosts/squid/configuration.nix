@@ -13,7 +13,7 @@
   # boot.loader.grub.efiInstallAsRemovable = true;
   # boot.loader.efi.efiSysMountPoint = "/boot/efi";
   # Define on which hard drive you want to install Grub.
-  # boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
   # networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -47,8 +47,8 @@
   users.users.root.initialPassword = "nixos";
   users.users.mikeyobrien = {
     isNormalUser = true;
-    initialPassword = "nixos"
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+    initialPassword = "nixos";
+    extraGroups = [ "wheel" ]; 
   };
 
   # List packages installed in system profile. To search, run:
