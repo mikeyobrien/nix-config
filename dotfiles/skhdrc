@@ -43,7 +43,12 @@ shift + cmd - t : yabai -m window --toggle float;\
 shift + cmd - space: \
     /usr/bin/env osascript <<< \
         "display notification \"Restarting Yabai\" with title \"Yabai\""; \
-    launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+    pkill yabai
+
+# Float / Unfloat window
+shift + alt - space : \
+    yabai -m window --toggle float; \
+    yabai -m window --toggle border
 
 # Make window native fullscreen
 shift + cmd - f         : yabai -m window --toggle zoom-fullscreen

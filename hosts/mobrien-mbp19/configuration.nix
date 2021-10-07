@@ -14,6 +14,7 @@
     bashInteractive
     apacheKafka
 
+    jdk11
     go
     gopls
     ffmpeg

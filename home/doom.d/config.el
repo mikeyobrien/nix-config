@@ -182,13 +182,11 @@
   (add-hook! 'lsp-ui-mode-hook
     (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
 
-(after! lsp-mode
-  (lsp-register-client
-   (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
-                    :major-modes '(terraform-mode)
-                    :server-id 'terraform-ls)))
-
-(add-hook 'terraform-mode-hook #'lsp)
+;;(lsp-register-client
+;;        (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
+;;                        :major-modes '(terraform-mode)
+;;                        :server-id 'terraform-ls))
+;;(add-hook 'terraform-mode-hook #'lsp)
 
 ;; treemacs
 (after! treemacs

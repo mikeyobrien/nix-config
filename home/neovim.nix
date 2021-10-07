@@ -58,6 +58,12 @@
       "execute "set backupdir=" . g:vim_home_path . "/backup"
       "execute "set undodir="   . g:vim_home_path . "/undo"
 
+      inoremap jj <esc>
+
+      " Shortcut to yanking to the system clipboard
+      map <leader>y "*y
+      map <leader>p "*p
+
       " using coc.nvim some servers have issues with backup files, see #649
       set nobackup
       set nowritebackup
@@ -214,7 +220,7 @@
       lua require'colorizer'.setup()
 
       "nvim web devicons
-      lua require'nvim-web-devicons'.setup();
+      lua require'nvim-web-devicons'.setup{ default = true; };
 
       " hop-nvim
       lua require'hop'.setup()

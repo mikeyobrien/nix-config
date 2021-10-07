@@ -19,6 +19,7 @@
       gcm = "git commit -m";
       dsf = "git diff --color | diff-so-fancy";
       gs = "git status";
+      dev-us = "aws --profile saas-dataeng-dev";
     };
     plugins = [
       {

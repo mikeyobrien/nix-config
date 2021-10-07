@@ -13,10 +13,12 @@
        :completion
        (company                 ; the ultimate code completion backend as you type completion
         +childframe)            ; nicer company ui. Emacs +26 only!
-       (ivy
-        +childframe
-        +icons
-        +prescient)
+       ;; (ivy
+       ;;  +childframe
+       ;;  +icons
+       ;;  +prescient)
+       (vertico +icons)
+
 
        :ui
        doom                     ; what makes DOOM look the way it does

@@ -17,6 +17,7 @@ with builtins;
   services.yabai = {
     enable = true;
     package = pkgs.yabai;
+    enableScriptingAddition = false;
     config = {
       mouse_follows_focus = "off";
       focus_follows_mouse = "off";
@@ -53,13 +54,16 @@ with builtins;
 
       # Unmanaged
       yabai -m rule --add label="Fantastical" app="^Fantastical$" title="^Fantastical$" manage=off
-      yabai -m rule --add app="^System Preferences$" manage=off border=off
+      yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
+      yabai -m rule --add label="System Preferences" app="^System Preferences$" title=".*" manage=off
+      yabai -m rule --add label="App Store" app="^App Store$" manage=off
+      yabai -m rule --add label="Activity Monitor" app="^Activity Monitor$" manage=off
       yabai -m rule --add app="Finder" manage=off border=off
+      yabai -m rule --add app="VMware Fusion" manage=off
+      yabai -m rule --add label="Software Update" title="Software Update" manage=off
+      yabai -m rule --add label="About This Mac" app="System Information" title="About This Mac" manage=off
 
-
-      yabai -m rule --add app="Emacs"               space=2
-      yabai -m rule --add app="iTerm2"              space=2
-      --space 3 layout float
+      yabai -m --space 3 layout float
     '';
   };
 
