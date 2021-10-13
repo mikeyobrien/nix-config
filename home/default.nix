@@ -29,7 +29,6 @@ with builtins;
     EDITOR = "nvim";
   };
 
-  programs.bat.enable = true;
   programs.direnv.enable = true;
   programs.fzf = {
     enable = true;

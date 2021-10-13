@@ -1,10 +1,7 @@
 { config, pkgs, home-manager, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-    ];
+  imports = [ ./hardware-configuration.nix ];
 
   nix = {
     package = pkgs.nixUnstable;
@@ -13,17 +10,21 @@
     '';
   };
 
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
+  boot.loader.grub = {
+    enable = true;
+    version = 2;
+    device = "/dev/sda"; # or "nodev" for efi only
+  };
 
+  # nixOS 
   modules.bspwm.enable = true;
   modules.tmux.enable = true;
 
   # home-manager modules
-  modules.neovim.enable = true;
-  modules.alacritty.enable = true;
+  modules = {
+    neovim.enable = true;
+    alacritty.enable = true;
+  };
 
   programs.fish.enable = true;
 
@@ -47,6 +48,7 @@
     wget
     firefox
     git
+    openconnect
   ];
 
   fonts.fonts = with pkgs; [
