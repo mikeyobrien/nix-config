@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, home-manager, ... }:
 
 {
   imports =
@@ -18,27 +18,21 @@
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
+  modules.bspwm.enable = true;
+  modules.tmux.enable = true;
+
+  # home-manager modules
+  modules.neovim.enable = true;
+  modules.alacritty.enable = true;
+
+  programs.fish.enable = true;
+
   networking.hostName = "squid";
-
   time.timeZone = "America/Chicago";
-
   networking.useDHCP = false;
   networking.interfaces.ens33.useDHCP = true;
-
   i18n.defaultLocale = "en_US.UTF-8";
 
-  services.xserver.enable = true;
-  services.xserver.windowManager.bspwm = {
-    enable = true;
-  };
-
-  services.xserver.displayManager = {
-    defaultSession = "none+bspwm";
-    lightdm.enable = true;
-    lightdm.greeters.mini.enable = true;
-    lightdm.greeters.mini.user = "mikeyobrien";
-  };
-    
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.root.initialPassword = "nixos";
   users.users.mikeyobrien = {
@@ -49,14 +43,17 @@
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    vim 
+    vim
     wget
     firefox
     git
   ];
 
-  virtualisation.vmware.guest.enable = true;
+  fonts.fonts = with pkgs; [
+    iosevka
+  ];
 
+  virtualisation.vmware.guest.enable = true;
   services.openssh.enable = true;
 
   system.stateVersion = "21.05"; 
