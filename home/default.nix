@@ -8,8 +8,8 @@ with builtins;
   ];
 
   programs.home-manager.enable = true;
-
   home.packages = with pkgs; [
+    fish
     starship
     htop
     jetbrains-mono
@@ -41,6 +41,11 @@ with builtins;
   programs.starship = {
     enable = true;
     enableFishIntegration = true;
+    settings = {
+      git_status = {
+        disabled = true;
+      };
+    };
   };
   programs.git = {
     enable  = true;

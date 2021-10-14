@@ -2,4 +2,6 @@ super + t
         bspc desktop -l next
 
 super + Return
-        alacritty 
+        alacritty
+
+

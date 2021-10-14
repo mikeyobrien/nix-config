@@ -39,7 +39,8 @@
   users.users.mikeyobrien = {
     isNormalUser = true;
     initialPassword = "nixos";
-    extraGroups = [ "wheel" ]; 
+    extraGroups = [ "wheel" ];
+    shell = pkgs.fish;
   };
 
   # List packages installed in system profile. To search, run:
@@ -49,15 +50,20 @@
     firefox
     git
     openconnect
+
+    python3
+    pre-commit
+    gcc
   ];
 
   fonts.fonts = with pkgs; [
     iosevka
+    nerdfonts
   ];
 
   virtualisation.vmware.guest.enable = true;
   services.openssh.enable = true;
 
-  system.stateVersion = "21.05"; 
+  system.stateVersion = "21.05";
 }
 
