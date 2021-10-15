@@ -15,7 +15,6 @@
   outputs = inputs@{ self, darwin, home-manager, emacs, nixpkgs, ... }:
   let
     inherit (nixpkgs) lib;
-
     homeManagerCommonConfig = with self.homeManagerModules; {
       imports = [ ./home ];
     };
@@ -63,71 +62,54 @@
           }
        ];
     };
-
-    sculpinLocals = {  # config variables local to specific system
-      username = "mikeyobrien";
-      git.name = "Mikey O'Brien";
-      git.email  = "hmobrienv@gmail.com";
-      homeDirectory = "/home/mikeyobrien";
-   };
-    squidLocals = {         
-        username = "mikeyobrien";
-        git.name = "Mikey O'Brien";
-        git.email  = "mobrien@vectra.ai";
-        homeDirectory = "/home/mikeyobrien";
-    };
+  in {
     nixosConfigurations.sculpin =  nixpkgs.lib.nixosSystem {
       system = "aarch64-linux";
       modules = [
-        ./hosts/sculpin/configuration.nix
         home-manager.nixosModules.home-manager
-        {
-          home-manager.users.mikeyobrien = with self.homeManagerModules; {
-              _module.args.locals = sculpinLocals;
+        ./hosts/squid/configuration.nix
+        ./modules/options.nix
+        ./modules/bspwm.nix
+        ./modules/tmux.nix
+        ./home/modules/neovim.nix
+        ./home/modules/alacritty.nix
+      ];
+    };
+
     nixosConfigurations.squid =  nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
-        ./hosts/squid/configuration.nix
         home-manager.nixosModules.home-manager
-        {
-          home-manager.users.mikeyobrien = with self.homeManagerModules; {
-              _module.args.locals = squidLocals;
-              imports = [ ./home ];
-          };
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-        }
+        ./hosts/squid/configuration.nix
+        ./modules/options.nix
+        ./modules/bspwm.nix
+        ./modules/tmux.nix
+        ./home/modules/neovim.nix
+        ./home/modules/alacritty.nix
       ];
     };
 
     darwinConfigurations = {
       "mobrien-mbp19" = mkDarwinSystem {
         system = "x86_64-darwin";
-        locals = {  # config variables local to specific system
-          username = "mikeyobrien";
-          git.name = "Mikey O'Brien";
-          git.email  = "mobrien@vectra.ai";
-          homeDirectory = "/Users/mikeyobrien";
-        };
         specialArgs = {};
-        modules = [./hosts/mobrien-mbp19/configuration.nix ];
+        modules = [
+          ./hosts/mobrien-mbp19/configuration.nix
+          ./hosts/squid/configuration.nix
+          ./modules/options.nix
+          ./modules/bspwm.nix
+          ./modules/tmux.nix
+          ./home/modules/neovim.nix
+          ./home/modules/alacritty.nix
+        ];
       };
       "m1macbook" = mkDarwinSystem {
         system = "aarch64-darwin";
-        locals = {  # config variables local to specific system
-          username = "mikeyobrien";
-          git.name = "Mikey O'Brien";
-          git.email  = "hmobrienv@gmail.com";
-          homeDirectory = "/Users/mikeyobrien";
-        };
         specialArgs = {
           pkgs = nixpkgsFor.aarch64-darwin;
           pkgsX86 = nixpkgsX86darwin;
         };
-        modules = [
-          ./hosts/m1macbook/configuration.nix
-        ];
       };
+    };
   };
-};
 }
