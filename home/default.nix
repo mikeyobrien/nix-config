@@ -24,6 +24,7 @@ with builtins;
     delta
     jq
     git-lfs
+    ranger
   ];
 
   home.sessionVariables = {
