@@ -7,12 +7,11 @@
     plugins = with pkgs.vimPlugins; [
       coc-nvim
       coc-pyright
-      coc-go
+      #coc-go
 
       vim-airline
       vim-airline-themes
       vim-startify
-      vim-go
       vim-markdown
       vim-eunuch
       vim-nix

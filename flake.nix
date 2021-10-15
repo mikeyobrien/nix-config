@@ -17,7 +17,7 @@
     inherit (nixpkgs) lib;
 
     homeManagerCommonConfig = with self.homeManagerModules; {
-      imports = [ ./home ]jkj;
+      imports = [ ./home ];
     };
 
     platforms = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
@@ -64,6 +64,12 @@
        ];
     };
 
+    sculpinLocals = {  # config variables local to specific system
+      username = "mikeyobrien";
+      git.name = "Mikey O'Brien";
+      git.email  = "hmobrienv@gmail.com";
+      homeDirectory = "/home/mikeyobrien";
+   };
   in {
     nixosConfigurations.nixos =  nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
@@ -72,6 +78,22 @@
         home-manager.nixosModules.home-manager
         {
           home-manager.users.mikeyobrien = with self.homeManagerModules; {
+              imports = [ ./home ];
+          };
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        }
+      ];
+    };
+
+    nixosConfigurations.sculpin =  nixpkgs.lib.nixosSystem {
+      system = "aarch64-linux";
+      modules = [
+        ./hosts/sculpin/configuration.nix
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.users.mikeyobrien = with self.homeManagerModules; {
+              _module.args.locals = sculpinLocals;
               imports = [ ./home ];
           };
           home-manager.useGlobalPkgs = true;

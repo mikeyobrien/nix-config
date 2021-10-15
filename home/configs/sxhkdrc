@@ -1,0 +1,5 @@
+super + Return
+  alacritty 
+
+super + Escape
+  pkill -USR1 -x sxhkd
