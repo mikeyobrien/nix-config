@@ -75,7 +75,6 @@
         ./home/modules/alacritty.nix
       ];
     };
-
     nixosConfigurations.squid =  nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -88,7 +87,6 @@
         ./home/modules/alacritty.nix
       ];
     };
-
     darwinConfigurations = {
       "mobrien-mbp19" = mkDarwinSystem {
         system = "x86_64-darwin";

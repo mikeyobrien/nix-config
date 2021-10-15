@@ -63,6 +63,4 @@ with builtins;
       "includeIf \"code/\"" = { path = ".gitconfig-code"; };
     };
   };
-
-  home.stateVersion = "21.03";
 }

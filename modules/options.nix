@@ -5,7 +5,7 @@ with lib;
   options = with types; {
     home = {
       homeDirectory = mkOption {
-        type = string;
+        type = str;
         default = "/home/mikeyobrien";
       };
       configFile = mkOption {
@@ -26,7 +26,6 @@ with lib;
         description = "packages"; 
       };
     };
-
     homeManagerPrograms = mkOption {
       type = attrs;
       description = "list of programs to enable";
@@ -44,6 +43,7 @@ with lib;
           username = "mikeyobrien";
           file = mkAliasDefinitions options.home.file;
           packages = mkAliasDefinitions options.home.packages;
+          stateVersion = config.system.stateVersion;
         };
         xdg = {
           configFile = mkAliasDefinitions options.home.configFile;
