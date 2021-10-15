@@ -19,6 +19,7 @@ in {
       shortcut = "a";
       keyMode = "vi";
       baseIndex = 1;
+      aggressiveResize = true;
       plugins = with pkgs; [
         tmuxPlugins.yank
         tmuxPlugins.vim-tmux-navigator

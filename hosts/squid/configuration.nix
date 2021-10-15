@@ -54,6 +54,8 @@
     python3
     pre-commit
     gcc
+    go
+    terraform_0_14
   ];
 
   fonts.fonts = with pkgs; [

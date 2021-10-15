@@ -9,6 +9,7 @@ with builtins;
 
   programs.home-manager.enable = true;
   home.packages = with pkgs; [
+    babashka
     fish
     starship
     htop
