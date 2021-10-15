@@ -63,29 +63,31 @@
        ];
     };
   in {
-    nixosConfigurations.sculpin =  nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
-      modules = [
-        home-manager.nixosModules.home-manager
-        ./hosts/squid/configuration.nix
-        ./modules/options.nix
-        ./modules/bspwm.nix
-        ./modules/tmux.nix
-        ./home/modules/neovim.nix
-        ./home/modules/alacritty.nix
-      ];
-    };
-    nixosConfigurations.squid =  nixpkgs.lib.nixosSystem {
+    nixosConfigurations = {
+      sculpin = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          home-manager.nixosModules.home-manager
+          ./hosts/sculpin/configuration.nix
+          ./modules/options.nix
+          ./modules/bspwm.nix
+          ./modules/tmux.nix
+          ./home/modules/neovim.nix
+          ./home/modules/alacritty.nix
+       ];
+     };
+     squid = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [
-        home-manager.nixosModules.home-manager
-        ./hosts/squid/configuration.nix
-        ./modules/options.nix
-        ./modules/bspwm.nix
-        ./modules/tmux.nix
-        ./home/modules/neovim.nix
-        ./home/modules/alacritty.nix
-      ];
+        modules = [
+          home-manager.nixosModules.home-manager
+          ./hosts/squid/configuration.nix
+          ./modules/options.nix
+          ./modules/bspwm.nix
+          ./modules/tmux.nix
+          ./home/modules/neovim.nix
+          ./home/modules/alacritty.nix
+        ];
+      };
     };
     darwinConfigurations = {
       "mobrien-mbp19" = mkDarwinSystem {

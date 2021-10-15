@@ -27,7 +27,7 @@ in {
           vim-eunuch
           vim-fireplace
           vim-fugitive
-          vim-go
+          # vim-go
           vim-markdown
           vim-nix
           vim-startify
