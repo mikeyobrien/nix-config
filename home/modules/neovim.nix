@@ -28,7 +28,6 @@ in {
           vim-fireplace
           vim-fugitive
           vim-go
-          vim-husk
           vim-markdown
           vim-nix
           vim-startify

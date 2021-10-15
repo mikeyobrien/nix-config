@@ -21,7 +21,7 @@
     gifsicle
   ];
 
-modules.brew = {
+  modules.brew = {
     enable = true;
     casks = [
       "iterm2"
@@ -35,6 +35,9 @@ modules.brew = {
       brew "emacs-plus@28", args: ["with-native-comp", "with-no-titlebar"]
     '';
   };
+
+
+  home.homeDirectory = "/Users/mikeyobrien";
 
   services.kubernetes.enable = true;
 

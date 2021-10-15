@@ -4,6 +4,10 @@ with lib;
 {
   options = with types; {
     home = {
+      homeDirectory = mkOption {
+        type = string;
+        default = "/home/mikeyobrien";
+      };
       configFile = mkOption {
         type = attrs;
         description = "xdg config file";
@@ -36,7 +40,7 @@ with lib;
       users.mikeyobrien = {
         imports = [ ../home ];
         home = {
-          homeDirectory = "/home/mikeyobrien";
+          homeDirectory = mkAliasDefinitions options.home.homeDirectory;
           username = "mikeyobrien";
           file = mkAliasDefinitions options.home.file;
           packages = mkAliasDefinitions options.home.packages;
@@ -45,7 +49,6 @@ with lib;
           configFile = mkAliasDefinitions options.home.configFile;
           dataFile   = mkAliasDefinitions options.home.dataFile;
         };
-
         programs = mkAliasDefinitions options.homeManagerPrograms;
       };
     };
