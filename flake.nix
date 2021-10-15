@@ -43,24 +43,20 @@
       localSystem = "x86_64-darwin";
     };
 
-    mkDarwinSystem = { locals, specialArgs, modules, system }:
+    mkDarwinSystem = { specialArgs, modules, system }:
       darwin.lib.darwinSystem {
         inherit specialArgs system;
         inputs = {
-          inherit darwin nixpkgs emacs home-manager locals;
+          inherit darwin nixpkgs emacs home-manager;
         };
         modules = modules ++ [
           home-manager.darwinModules.home-manager
           ./modules/brew.nix
           ./modules/k8s.nix
-          {
-            home-manager.users.${locals.username} = with self.homeManagerModules; {
-              _module.args.locals = locals;
-              imports = [ ./home ];
-            };
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          }
+          ./modules/options.nix
+          ./modules/tmux.nix
+          ./home/modules/neovim.nix
+          ./home/modules/alacritty.nix
        ];
     };
   in {
@@ -100,12 +96,6 @@
         specialArgs = {};
         modules = [
           ./hosts/mobrien-mbp19/configuration.nix
-          ./hosts/squid/configuration.nix
-          ./modules/options.nix
-          ./modules/bspwm.nix
-          ./modules/tmux.nix
-          ./home/modules/neovim.nix
-          ./home/modules/alacritty.nix
         ];
       };
       "m1macbook" = mkDarwinSystem {

@@ -38,6 +38,10 @@
 
 
   home.homeDirectory = "/Users/mikeyobrien";
+  modules = {
+      neovim.enable = true;
+      tmux.enable = true;
+  };
 
   services.kubernetes.enable = true;
 
