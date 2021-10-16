@@ -11,6 +11,10 @@ with lib;
     '';
   };
 
+
+
+  boot.kernelPackages = pkgs.linuxPackages_5_14;
+  boot.kernelParams = ["root=/dev/sda1"];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -22,7 +26,7 @@ with lib;
   i18n.defaultLocale = "en_US.UTF-8";
 
   modules.bspwm.enable = true;
-  
+
   # home-manager
   modules.tmux.enable = true;
   modules.alacritty.enable = true;
@@ -30,7 +34,7 @@ with lib;
 
   sound.enable = true;
   users.users.root.initialPassword = "nixos";
-  
+
   environment.systemPackages = with pkgs; [
     vim 
     wget
