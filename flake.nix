@@ -6,13 +6,14 @@
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
+    flake-utils.url = "github:numtide/flake-utils";
 
     # overlays
     emacs.url = "github:nix-community/emacs-overlay";
   };
 
 
-  outputs = inputs@{ self, darwin, home-manager, emacs, nixpkgs, ... }:
+  outputs = inputs@{ self, darwin, home-manager, emacs, nixpkgs, flake-utils, ... }:
   let
     inherit (nixpkgs) lib;
     homeManagerCommonConfig = with self.homeManagerModules; {

@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 
 with lib;
+with builtins;
 {
   imports = [ ./hardware-configuration.nix ];
 
@@ -11,7 +12,17 @@ with lib;
     '';
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_5_14;
+  boot.kernelPackages =  pkgs.linuxPackagesFor (pkgs.linux_5_14.override {
+    argsOverride = rec {
+      src = pkgs.fetchurl {
+            url = "mirror://kernel/linux/kernel/v5.x/linux-${version}.tar.xz";
+            sha256 = "0capilz3wx29pw7n2m5cn229vy9psrccmdspp27znhjkvwj0m0wk";
+      };
+      version = "5.14.11";
+      modDirVersion = "5.14.11";
+      };
+  });
+
   boot.kernelParams = ["root=/dev/sda1"];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -24,6 +35,11 @@ with lib;
   i18n.defaultLocale = "en_US.UTF-8";
 
   modules.bspwm.enable = true;
+
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.xlibs.xset}/bin/xset r rate 200 40
+    ${pkgs.xorg.xrandr}/bin/xrandr -s '2880x1800'
+  '';
 
   # home-manager
   modules.tmux.enable = true;
@@ -39,6 +55,10 @@ with lib;
     open-vm-tools
     git
     gnumake
+  ];
+
+  fonts.fonts = with pkgs; [
+    nerdfonts
   ];
 
   services.openssh.enable = true;
