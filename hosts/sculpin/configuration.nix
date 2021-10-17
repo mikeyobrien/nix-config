@@ -36,9 +36,12 @@ with builtins;
 
   modules.bspwm.enable = true;
 
+
+  hardware.video.hidpi.enable = true;
+  services.xserver.dpi = 180;
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.xlibs.xset}/bin/xset r rate 200 40
-    ${pkgs.xorg.xrandr}/bin/xrandr -s '2880x1800'
+    ${pkgs.xorg.xrandr}/bin/xrandr -s '2880x1800' 
   '';
 
   # home-manager
@@ -55,11 +58,18 @@ with builtins;
     open-vm-tools
     git
     gnumake
+    xst
   ];
 
   fonts.fonts = with pkgs; [
     nerdfonts
   ];
+
+  environment.variables = {
+    GDK_SCALE = "2";
+    GDK_DPI_SCALE = "0.5";
+    _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
+  };
 
   services.openssh.enable = true;
   networking.firewall.enable = false;
