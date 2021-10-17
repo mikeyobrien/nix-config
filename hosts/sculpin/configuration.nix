@@ -11,8 +11,6 @@ with lib;
     '';
   };
 
-
-
   boot.kernelPackages = pkgs.linuxPackages_5_14;
   boot.kernelParams = ["root=/dev/sda1"];
   boot.loader.systemd-boot.enable = true;
@@ -40,6 +38,7 @@ with lib;
     wget
     open-vm-tools
     git
+    gnumake
   ];
 
   services.openssh.enable = true;
