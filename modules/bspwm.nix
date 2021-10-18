@@ -29,6 +29,7 @@ in {
       };
     };
 
+    home.file.".Xresources".source = ../home/configs/xresources;
     home.configFile."sxhkd".source = ../home/configs/sxhkd;
     home.configFile."bspwm" = {
       source = ../home/configs/bspwm;

@@ -36,7 +36,6 @@ with builtins;
 
   modules.bspwm.enable = true;
 
-
   hardware.video.hidpi.enable = true;
   services.xserver.dpi = 180;
   services.xserver.displayManager.sessionCommands = ''
@@ -48,9 +47,11 @@ with builtins;
   modules.tmux.enable = true;
   modules.alacritty.enable = true;
   modules.neovim.enable = true;
+  modules.emacs.enable = true;
 
   sound.enable = true;
   users.users.root.initialPassword = "nixos";
+  users.users.mikeyobrien.shell = pkgs.fish;
 
   environment.systemPackages = with pkgs; [
     vim 
@@ -59,6 +60,7 @@ with builtins;
     git
     gnumake
     xst
+    mosh
   ];
 
   fonts.fonts = with pkgs; [

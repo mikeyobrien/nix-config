@@ -75,8 +75,11 @@
           ./modules/tmux.nix
           ./home/modules/neovim.nix
           ./home/modules/alacritty.nix
+          ./home/modules/emacs.nix
        ];
      };
+
+
      squid = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
         modules = [
