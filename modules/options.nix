@@ -44,6 +44,7 @@ with lib;
         isNormalUser = true;
         home = "/home/${name}";
         group = "users";
+        initialPassword = "nixos";
         uid = 1000;
       };
 
