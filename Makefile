@@ -21,6 +21,5 @@ switch:
 
 rebuild-switch:
 	@nixos-rebuild switch --flake "/etc/nixos#"
-	@doom sync
 
 darwin-switch: build switch

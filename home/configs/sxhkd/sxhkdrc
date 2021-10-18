@@ -1,7 +1,94 @@
-super + t
-        bspc desktop -l next
+alt + t
+	bspc desktop -l next
 
-super + Return
-        alacritty
+alt + w; alt + b
+	bspc window -s last
+
+# Attach to a detached session. If none is available create a new one, rather
+# than attach to one that is already attached to elsewhere.
+alt + Return
+	xst -e bash -c "(tmux ls | grep -qEv 'attached|scratch' && tmux at) || tmux"
+# Start a plain ol' terminal
+alt + ctrl + Return
+        xst 
+alt + ctrl + alt + Return
+	xterm
+
+# Open a disposable, floating terminal window, for quick shell commands.
+alt + grave
+	scratch
+
+# Open a disposable scratch buffer in a floating Emacs window, to run arbitrary
+# code or quickly note something down.
+alt + shift + grave
+	emacsclient --eval "(open-scratch-frame)"
+
+# Invoke emacs-everywhere at point.
+alt + e
+    emacsclient --eval "(emacs-everywhere)"
+
+alt + space
+        rofi -show run
+
+alt + Tab
+	rofi -show window
+
+alt + s
+	rofi -show ssh 
+
+alt + Escape
+	pkill -USR1 -x sxhkd
+
+alt + alt + Escape
+	bspc quit
+
+
+#
+##
+
+## Toggle floating/fullscreen
+alt + w; alt + {_,shift + }f
+	bspc node -t ~{floating,fullscreen}
+
+# Focus window directionally; w/ ctrl = move by monitor
+alt + {_,ctrl +}{h,j,k,l}
+	$DOTFILES_BIN/bspwm/focus {_,-m }{west,south,north,east}
+
+# Swap windows directionally; w/ ctrl = across monitors
+alt + shift + {_,ctrl +}{h,j,k,l}
+	$DOTFILES_BIN/bspwm/swap {_,-m }{west,south,north,east}
+
+
+#
+##
+
+# Close window or force-kill it!
+alt + q; alt + {_,shift + }q
+	bspc node -{c,k}
+
+# expand a window by moving one of its side outward
+alt + {Left,Down,Up,Right}
+	bspc node -z {left -40 0,bottom 0 40,top 0 -40,right 40 0}
+
+# contract a window by moving one of its side inward
+alt + shift + {Left,Down,Up,Right}
+	bspc node -z {right -40 0,top 0 40,bottom 0 -40,left 40 0}
+
+# move a floating window
+alt + ctrl + {Left,Down,Up,Right}
+	bspc node -v {-40 0,0 40,0 -40,40 0}
+
+
+#
+## Desktops
+
+# Switch to numbered desktop
+alt + {1-9,0}
+	bspc desktop -f {1-9,10};
+
+# On shift = move current node to numbered desktop
+alt + shift + {1-9,0}
+	bspc node -d {1-9,10};
+
 
 

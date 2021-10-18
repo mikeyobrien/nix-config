@@ -1,27 +1,29 @@
 { config, lib, pkgs, ... }:
 with lib;
-let cfg = config.programs.emacs;
+let cfg = config.modules.emacs;
 in {
-  options.programs.emacs = {
-    doomDir = mkOption {
-      type = types.str;
-      default = "$HOME/.doom.d";
-    };
-  };
+  options.modules.emacs.enable = mkEnableOption "emacs"; 
 
   config = mkIf cfg.enable {
-    home.sessionVariables = {
-      DOOMDIR = cfg.doomDir;
+    home.packages = with pkgs; [
+      sqlite
+      emacs-all-the-icons-fonts
+      fd
+      imagemagick
+      zstd
+      gcc
+    ];
+
+    homeManagerPrograms.emacs = {
+      enable = true;
     };
 
-    home.file.${cfg.doomDir}.source = config.lib.file.mkOutOfStoreSymlink ../doom.d;
+    services.emacs.enable = true;
 
-    # doom emacs dependencies
-    home.packages = with pkgs; [
-      gopls
-      sbcl
-      clojure-lsp
-      emacs-all-the-icons-fonts
-    ];
+    home.file.".doom.d" = {
+      source = ../doom.d;
+      recursive = true;
+      onChange = builtins.readFile ../../doom-setup.sh;
+    }; 
   };
 }

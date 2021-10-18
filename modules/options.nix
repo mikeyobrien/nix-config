@@ -3,11 +3,13 @@
 with lib;
 {
   options = with types; {
+
+    user = mkOption {
+      type = attrs;
+      default = {};
+    };
+
     home = {
-      homeDirectory = mkOption {
-        type = str;
-        default = "/home/mikeyobrien";
-      };
       configFile = mkOption {
         type = attrs;
         description = "xdg config file";
@@ -20,7 +22,6 @@ with lib;
         type = attrs;
         description = "xdg home file";
       };
-
       packages = mkOption {
         type = listOf package;
         description = "packages"; 
@@ -33,13 +34,33 @@ with lib;
   };
 
   config = {
+    user =
+      let user = builtins.getEnv "USER";
+          name = if elem user [ "" "root" ] then "mikeyobrien" else user;
+      in {
+        inherit name;
+        description = "The primary user account";
+        extraGroups = [ "wheel" ];
+        isNormalUser = true;
+        home = "/home/${name}";
+        group = "users";
+        uid = 1000;
+      };
+
+    users.users.${config.user.name} = mkAliasDefinitions options.user;
+    nix = let users = [ "root" config.user.name ]; in {
+      trustedUsers = users;
+      allowedUsers = users;
+    };
+
     home-manager = {
       useUserPackages = true;
       useGlobalPkgs = true;
-      users.mikeyobrien = {
-        imports = [ ../home ];
+      users.mikeyobrien = { pkgs, ...}: {
+        imports = [
+          ../home
+        ];
         home = {
-          homeDirectory = mkAliasDefinitions options.home.homeDirectory;
           username = "mikeyobrien";
           file = mkAliasDefinitions options.home.file;
           packages = mkAliasDefinitions options.home.packages;

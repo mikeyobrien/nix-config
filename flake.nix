@@ -2,17 +2,18 @@
   description = "NixOS and nix-darwin configs";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "nixpkgs/nixos-unstable";
     darwin.url = "github:lnl7/nix-darwin/master";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
+    flake-utils.url = "github:numtide/flake-utils";
 
     # overlays
     emacs.url = "github:nix-community/emacs-overlay";
   };
 
 
-  outputs = inputs@{ self, darwin, home-manager, emacs, nixpkgs, ... }:
+  outputs = inputs@{ self, darwin, home-manager, emacs, nixpkgs, flake-utils, ... }:
   let
     inherit (nixpkgs) lib;
     homeManagerCommonConfig = with self.homeManagerModules; {
@@ -63,29 +64,34 @@
        ];
     };
   in {
-    nixosConfigurations.sculpin =  nixpkgs.lib.nixosSystem {
-      system = "aarch64-linux";
-      modules = [
-        home-manager.nixosModules.home-manager
-        ./hosts/squid/configuration.nix
-        ./modules/options.nix
-        ./modules/bspwm.nix
-        ./modules/tmux.nix
-        ./home/modules/neovim.nix
-        ./home/modules/alacritty.nix
-      ];
-    };
-    nixosConfigurations.squid =  nixpkgs.lib.nixosSystem {
+    nixosConfigurations = {
+      sculpin = nixpkgs.lib.nixosSystem {
+        system = "aarch64-linux";
+        modules = [
+          home-manager.nixosModules.home-manager
+          ./hosts/sculpin/configuration.nix
+          ./modules/options.nix
+          ./modules/bspwm.nix
+          ./modules/tmux.nix
+          ./home/modules/neovim.nix
+          ./home/modules/alacritty.nix
+          ./home/modules/emacs.nix
+       ];
+     };
+
+
+     squid = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
-      modules = [
-        home-manager.nixosModules.home-manager
-        ./hosts/squid/configuration.nix
-        ./modules/options.nix
-        ./modules/bspwm.nix
-        ./modules/tmux.nix
-        ./home/modules/neovim.nix
-        ./home/modules/alacritty.nix
-      ];
+        modules = [
+          home-manager.nixosModules.home-manager
+          ./hosts/squid/configuration.nix
+          ./modules/options.nix
+          ./modules/bspwm.nix
+          ./modules/tmux.nix
+          ./home/modules/neovim.nix
+          ./home/modules/alacritty.nix
+        ];
+      };
     };
     darwinConfigurations = {
       "mobrien-mbp19" = mkDarwinSystem {

@@ -26,7 +26,7 @@ in {
             family = "Iosevka";
             style = "Light Italic";
           };
-          size = 12.0;
+          size = 15.0;
         };
         mouse = {
           hide_when_type = true;
