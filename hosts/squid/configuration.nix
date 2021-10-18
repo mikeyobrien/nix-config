@@ -1,7 +1,10 @@
 { config, pkgs, home-manager, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ../defaults.nix
+    ./hardware-configuration.nix
+  ];
 
   nix = {
     package = pkgs.nixUnstable;
@@ -47,8 +50,6 @@
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    vim
-    wget
     firefox
     git
     openconnect

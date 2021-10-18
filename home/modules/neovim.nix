@@ -12,6 +12,7 @@ in {
         rnix-lsp
         nodejs
         metals
+        terraform-ls
       ];
 
       homeManagerPrograms.neovim = {
