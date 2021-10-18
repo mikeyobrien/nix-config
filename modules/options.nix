@@ -57,8 +57,10 @@ with lib;
     home-manager = {
       useUserPackages = true;
       useGlobalPkgs = true;
-      users.mikeyobrien = {
-        imports = [ ../home ];
+      users.mikeyobrien = { pkgs, ...}: {
+        imports = [
+          ../home
+        ];
         home = {
           username = "mikeyobrien";
           file = mkAliasDefinitions options.home.file;

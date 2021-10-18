@@ -11,6 +11,11 @@ in {
       lightdm
     ];
 
+    home.packages = with pkgs; [
+      xst
+      rofi
+    ];
+
     services = {
       xserver = {
         enable = true;
@@ -24,8 +29,9 @@ in {
       };
     };
 
+    home.file.".Xresources".source = ../home/configs/xresources;
     home.configFile."sxhkd".source = ../home/configs/sxhkd;
-    home.file."bspwm"= {
+    home.configFile."bspwm" = {
       source = ../home/configs/bspwm;
       recursive = true;
     };

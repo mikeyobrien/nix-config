@@ -33,25 +33,25 @@
        (popup                   ; tame sudden yet inevitable temporary windows
         +all
         +defaults)              ; default popup rules
-       treemacs                 ; a project drawer, like neotree but cooler
+       ;treemacs                 ; a project drawer, like neotree but cooler
        vc-gutter                ; vcs diff in the fringe
        vi-tilde-fringe          ; fringe tildes to mark beyond EOB
-       (window-select +numbers) ; visually switch windows
+       ;(window-select +numbers) ; visually switch windows
        workspaces               ; tab emulation, persistence & separate workspaces
        zen
 
        :editor
        (evil +everywhere)       ; come to the dark side, we have cookies
-       file-templates           ; auto-snippets for empty files
-       fold                     ; (nigh) universal code folding
-       format                   ; automated prettiness
-       multiple-cursors         ; editing in many places at once
-       rotate-text              ; cycle region at point between text candidates
+       ;file-templates           ; auto-snippets for empty files
+       ;fold                     ; (nigh) universal code folding
+       ;format                   ; automated prettiness
+       ;multiple-cursors         ; editing in many places at once
+       ;rotate-text              ; cycle region at point between text candidates
        snippets                 ; my elves. They type so I don't have to
 
        :emacs
        (dired +icons)           ; making dired pretty [functional]
-       electric                 ; smarter, keyword-based electric-indent
+       ;electric                 ; smarter, keyword-based electric-indent
        (ibuffer +icons)
        (undo +tree)
        vc                       ; version-control and Emacs, sitting in a tree
@@ -70,9 +70,9 @@
        :tools
        ;;ansible
        ;;debugger               ; FIXME stepping through code, to help you add bugs
-       direnv
-       docker
-       editorconfig             ; let someone else argue about tabs vs spaces
+       ;direnv
+       ;docker
+       ;editorconfig             ; let someone else argue about tabs vs spaces
        ;;ein                    ; tame Jupyter notebooks with emacs
        (eval +overlay)          ; run code, run (also, repls)
        ;;flyspell               ; tasing you for misspelling mispelling
@@ -82,32 +82,32 @@
         +docsets)               ; ...or in Dash docsets locally
        lsp
        (magit +forge)           ; a git porcelain for Emacs
-       make                     ; run make tasks from Emacs
+       ;make                     ; run make tasks from Emacs
        ;;pass                   ; password manager for nerds
-       pdf                      ; pdf enhancements
+       ;pdf                      ; pdf enhancements
        ;;prodigy                ; FIXME managing external services & code builders
-       rgb                      ; creating color strings
-       terraform                ; infrastructure as code
+       ;rgb                      ; creating color strings
+       ;terraform                ; infrastructure as code
        ;; tmux                          ; an API for interacting with tmux
        ;; upload                        ; map local to remote projects via ssh/ftp
 
        :lang
        ;;agda                   ; types of types of types of types...
        ;;assembly               ; assembly for fun or debugging
-       cc                       ; C/C++/Obj-C madness
+       ;cc                       ; C/C++/Obj-C madness
        (clojure +lsp)           ; java with a lisp
-       common-lisp              ; if you've seen one lisp, you've seen them all
+       ;common-lisp              ; if you've seen one lisp, you've seen them all
        ;;coq                    ; proofs-as-programs
        ;;crystal                ; ruby at the speed of c
        ;;csharp                 ; unity, .NET, and mono shenanigans
-       data                     ; config/data formats
+       ;data                     ; config/data formats
        ;;erlang                 ; an elegant language for a more civilized age
        ;;elixir                 ; erlang done right
        ;;elm                    ; care for a cup of TEA?
        emacs-lisp               ; drown in parentheses
        ;;ess                    ; emacs speaks statistics
        ;;fsharp                 ; ML stands for Microsoft's Language
-       (go +lsp)                ; the hipster dialect
+       ;(go +lsp)                ; the hipster dialect
        ;;(haskell +intero)      ; a language that's lazier than I am
        ;;hy                     ; readability of scheme w/ speed of python
        ;;idris             ;
@@ -118,11 +118,11 @@
        ;;latex                  ; writing papers in Emacs has never been so fun
        ;;lean
        ;;ledger                   ; an accounting system in Emacs
-       lua                      ; one-based indices? one-based indices
-       markdown                 ; writing docs for people to ignore
+       ;lua                      ; one-based indices? one-based indices
+       ;markdown                 ; writing docs for people to ignore
        ;;nim                    ; python + lisp at the speed of c
-       nix                      ; I hereby declare "nix geht mehr!"
-       json
+       ;nix                      ; I hereby declare "nix geht mehr!"
+       ;json
        ;;ocaml                  ; an objective camel
        (org                     ; organize your plain life in plain text
         +pretty
@@ -137,24 +137,24 @@
        ;;php                    ; perl's insecure younger brother
        ;;plantuml               ; diagrams for confusing people more
        ;;purescript             ; javascript, but functional
-       (python
-        +lsp)
+       ;(python
+       ; +lsp)
        ;;qt                     ; the 'cutest' gui framework ever
        ;;racket                 ; a DSL for DSLs
-       rest                     ; Emacs as a REST client
+       ;rest                     ; Emacs as a REST client
        ;;ruby                   ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       (rust
-        +lsp
-        +pyright)                   ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-       scala                    ; java, but good
+       ;(rust
+       ; +lsp
+       ; +pyright)                   ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;scala                    ; java, but good
        ;;scheme                 ; a fully conniving family of lisps
-       sh
-       solidity                 ; do you need a blockchain? No.
-       (swift                   ; who asked for emoji variables?
-        +lsp)
+       ;sh
+       ;solidity                 ; do you need a blockchain? No.
+       ;(swift                   ; who asked for emoji variables?
+       ; +lsp)
        ;;terra                  ; Earth and Moon in alignment for performance.
-       web                      ; the tubes
-       yaml
+       ;web                      ; the tubes
+       ;yaml
        ;;vala                   ; GObjective-C
 
        :os
@@ -171,8 +171,8 @@
        ;; should be loaded late.
        :app
        ;;irc                    ; how neckbeards socialize
-       everywhere
-       (rss +org)               ; emacs as an RSS reader
+       ;everywhere
+       ;(rss +org)               ; emacs as an RSS reader
        ;;twitter                ; twitter client https://twitter.com/vnought
        ;;(write                 ; emacs for writers (fiction, notes, papers, etc.)
        ;; +wordnut                      ; wordnet (wn) search
