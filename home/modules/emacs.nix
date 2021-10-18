@@ -11,16 +11,15 @@ in {
       fd
       imagemagick
       zstd
+      gcc
     ];
 
     homeManagerPrograms.emacs = {
       enable = true;
-      extraPackages = epkg: [
-        epkg.evil-collection
-      ];
     };
 
     services.emacs.enable = true;
+
     home.file.".doom.d" = {
       source = ../doom.d;
       recursive = true;

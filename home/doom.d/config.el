@@ -1,13 +1,8 @@
 ;;; .doom.d/config.el -*- lexical-binding: t; -*-
 ;; Place your private configuration here
-(load! "lisp/lib")
-(load! "lisp/ui")
-(load! "lisp/aws")
-
-;; Experimental Settings
-(setq global-flycheck-mode t)
-(setq evil-snipe-scope 'buffer)
-;; Experimental End
+;(load! "lisp/lib")
+;(load! "lisp/ui")
+;(load! "lisp/aws")
 
 (setq user-full-name "mobrien"
       user-mail-address "hmobrienv@gmail.com")
@@ -63,8 +58,6 @@
       (load! "lisp/vectra"))
   (setq work-laptop nil))
 
-(evil-set-initial-state 'awstk-s3-bucket-mode 'normal)
-
 ;; wsl
 (setq-default sysTypeSpecific  system-type) ;; get the system-type value
 
@@ -90,159 +83,6 @@
 ;(setq require-final-newline nil)
 
 
-;; elfeed
-(after! elfeed
-  (setq elfeed-db-directory "~/Sync/.elfeed/db/")
-  (map! :map elfeed-search-mode-map
-        :desc "clear search" "c" #'elfeed-search-clear-filter)
-  (setq elfeed-search-filter "@1-week-ago +unread"
-        elfeed-search-title-min-width 80)
-
-  (add-hook! 'elfeed-show-mode-hook (hide-mode-line-mode 1))
-  (add-hook! 'elfeed-search-update-hook #'hide-mode-line-mode)
-
-  (defface elfeed-show-title-face '((t (:weight ultrabold :slant italic :height 1.5)))
-    "title face in elfeed show buffer"
-    :group 'elfeed)
-  (defface elfeed-show-author-face `((t (:weight light)))
-    "title face in elfeed show buffer"
-    :group 'elfeed)
-  (if (eq nil work-laptop)
-      (setq elfeed-feeds (append elfeed-feeds
-                                 '(("https://jenkins.vectra.io/view/SaaS%20Platform/job/terraform_apply_saas-platform/rssAll" vectra)
-                                   ("https://jenkins.vectra.io/view/SaaS%20Platform/job/verify.data_analytics.multi/job/master/rssAll" vectra))))))
-
-
-;; wakatime
-;; (use-package! wakatime-mode
-;;   :init
-;;   (setq wakatime-api-key "6e37fd13-897a-4616-96ea-5aa389d2098d")
-;;   (setq wakatime-cli-path "wakatime")
-;;  (global-wakatime-mode))
-
-(map! :leader
-      (:desc "open elfeed" "o e" #'=rss)
-      (:desc "open eterm"  "o t" #'+vterm/toggle))
-
-;; smerge
-(defun smerge-repeatedly ()
-  "Perform smerge actions again and again"
-  (interactive)
-  (smerge-mode 1)
-  (smerge-transient))
-(after! transient
-  (transient-define-prefix smerge-transient ()
-    [["Move"
-      ("n" "next" (lambda () (interactive) (ignore-errors (smerge-next)) (smerge-repeatedly)))
-      ("p" "previous" (lambda () (interactive) (ignore-errors (smerge-prev)) (smerge-repeatedly)))]
-     ["Keep"
-      ("b" "base" (lambda () (interactive) (ignore-errors (smerge-keep-base)) (smerge-repeatedly)))
-      ("u" "upper" (lambda () (interactive) (ignore-errors (smerge-keep-upper)) (smerge-repeatedly)))
-      ("l" "lower" (lambda () (interactive) (ignore-errors (smerge-keep-lower)) (smerge-repeatedly)))
-      ("a" "all" (lambda () (interactive) (ignore-errors (smerge-keep-all)) (smerge-repeatedly)))
-      ("RET" "current" (lambda () (interactive) (ignore-errors (smerge-keep-current)) (smerge-repeatedly)))]
-     ["Diff"
-      ("<" "upper/base" (lambda () (interactive) (ignore-errors (smerge-diff-base-upper)) (smerge-repeatedly)))
-      ("=" "upper/lower" (lambda () (interactive) (ignore-errors (smerge-diff-upper-lower)) (smerge-repeatedly)))
-      (">" "base/lower" (lambda () (interactive) (ignore-errors (smerge-diff-base-lower)) (smerge-repeatedly)))
-      ("R" "refine" (lambda () (interactive) (ignore-errors (smerge-refine)) (smerge-repeatedly)))
-      ("E" "ediff" (lambda () (interactive) (ignore-errors (smerge-ediff)) (smerge-repeatedly)))]
-     ["Other"
-      ("c" "combine" (lambda () (interactive) (ignore-errors (smerge-combine-with-next)) (smerge-repeatedly)))
-      ("r" "resolve" (lambda () (interactive) (ignore-errors (smerge-resolve)) (smerge-repeatedly)))
-      ("k" "kill current" (lambda () (interactive) (ignore-errors (smerge-kill-current)) (smerge-repeatedly)))
-      ("q" "quit" (lambda () (interactive) (smerge-auto-leave)))]]))
-
-;; shell stuff
-(defalias 'v 'eshell-exec-visual)
-
-;; json
-(add-hook 'json-mode-hook
-          (lambda ()
-            ()
-            (make-local-variable 'js-indent-level)
-            (setq js-indent-level 2)))
-
-;; GOLANG
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
-;; ivy
-(setq ivy-read-action-function #'ivy-hydra-read-action)
-
-;; lsp
-(setq lsp-lens-enable nil
-      lsp-ui-doc-delay 0.5
-      lsp-pyls-plugins-pylint-enabled t
-      lsp-flycheck-live-reporting t)
-
-(after! lsp-ui
-  (add-hook! 'lsp-ui-mode-hook
-    (run-hooks (intern (format "%s-lsp-ui-hook" major-mode)))))
-
-;;(lsp-register-client
-;;        (make-lsp-client :new-connection (lsp-stdio-connection '("/usr/local/bin/terraform-ls" "serve"))
-;;                        :major-modes '(terraform-mode)
-;;                        :server-id 'terraform-ls))
-;;(add-hook 'terraform-mode-hook #'lsp)
-
-;; treemacs
-(after! treemacs
-  (setq treemacs-width 53)
-                                        ;(lsp-treemacs-sync-mode 1)
-  (treemacs-resize-icons 44))
-
-;; flycheck
-(setq-default flycheck-disabled-checkers '(json-jsonlint))
-
-;; (defun mobrien-go-flycheck-setup ()
-;;   "Setup Flycheck checkers for Golang"
-;;  (flycheck-add-next-checker 'lsp-ui 'golangci-lint))
-
-;; babashka
-(defun bb-main ()
-  "Run coins main"
-  (interactive)
-  (projectile-with-default-dir (projectile-project-root)
-    (shell-command "bb -m coins.main")))
-
-;; Python
-(use-package! python-black
-  :init
-  (map! :localleader
-        :map python-mode-map
-        :desc "Deploy package" "d" #'deploy-package
-        :desc "Blacken buffer" "b" #'python-black-buffer))
-
-(after! ob-jupyter
-  (dolist (lang '(python julia R))
-    (cl-pushnew (cons (format "jupyter-%s" lang) lang)
-                org-src-lang-modes :key #'car)))
-
-(setq lsp-pyls-plugins-pylint-enabled t)
-;;(add-to-list 'flycheck-checkcers 'lsp-ui 'python-pylint))
-;; (setq flycheck-python-pylint-executable "~/.pyenv/shims/pylint")
-;; (setq flycheck-python-pycompile-executable "~/.pyenv/shims/python3")
-;; (with-eval-after-load 'flycheck
-
-;;  (flycheck-add-mode 'proselint 'org-mode))
-;;
-(after! company
-  (setq company-idle-delay 0.5
-        company-minimum-prefix-length 2)
-  (setq company-show-numbers t)
-  (add-hook 'evil-normal-state-entry-hook #'company-abort))
-
-;; tramps
-(setq tramp-default-method "ssh")
-
-;; writeroom
-;;(setq writeroom-width 150)
-
-;; evil mode
-(setq evil-want-fine-undo t)
 
 (after! org
   (add-hook 'org-mode-hook 'turn-on-auto-fill)
@@ -554,8 +394,8 @@ Not added when either:
   (add-hook 'focus-out-hook 'save-all))
 
 
-(setq org-roam-directory (file-truename "~/org/braindump")
-        org-roam-db-location (file-truename "~/org/org-roam.db")
+(setq org-roam-directory (file-truename "~/second-brain/orgroam")
+        org-roam-db-location (file-truename "~/.org-roam.db")
         org-roam-graph-viewer (lambda (file)
                                 (call-process "open" nil t nil "-a" "safari" file))
         org-roam-graph-extra-config '(("concentrate" . "true"))
@@ -563,189 +403,10 @@ Not added when either:
         +org-roam-open-buffer-on-find-file nil)
 
 
-;; (after! org-roam
-;;   :commands (org-roam-insert org-roam-find-file org-roam org-roam-switch-to-buffer)
-;;   :hook
-;;   (after-init . org-roam-mode)
-;;   :init
-;;     (map! :leader
-;;         :prefix "n"
-;;         :desc "org-roam-insert" "i" #'org-roam-insert
-;;         :desc "org-roam-find"   "/" #'org-roam-find-file
-;;         :desc "org-roam-dailies-capture-today" "j" #'org-roam-dailies-capture-today
-;;         :desc "org-roam-dailies-today" "t" #'org-roam-dailies-today
-;;         :desc "org-roam-find-file" "f" #'org-roam-find-file
-;;         :desc "org-roam-capture" "c" #'org-roam-capture)
-;;   ;;       :desc "org-roam-buffer" "r" #'org-roam
-;;   ;;       :desc "org-roam-capture" "c" #'org-roam-capture)
-;;   :config
-;;   (require 'org-roam-protocol)
-;;   (org-roam-mode +1)
-;;   (setq org-roam-capture-templates
-;;         '(("d" "default" plain (function org-roam--capture-get-point)
-;;            "%?"
-;;            :file-name "${slug}"
-;;            :head "#+SETUPFILE:./hugo_setup.org
-;; #+HUGO_SECTION: zettels
-;; #+HUGO_SLUG: ${slug}
-;; #+TITLE: ${title}\n"
-;;            :unnarrowed t)
-;;           ("v" "vectra" plain (function org-roam--capture-get-point)
-;;            "%?"
-;;            :file-name "${slug}"
-;;            :head "#+SETUPFILE:./hugo_setup.org
-;; #+HUGO_SECTION: zettels
-;; #+HUGO_SLUG: ${slug}
-;; #+TITLE: ${title}\n
-;; #+ROAM_TAGS: vectra "
-;;            :unnarrowed t)
-;;           ("p" "private" plain (function org-roam-capture--get-point)
-;;            "%?"
-;;            :file-name "private-${slug}"
-;;            :head "#+TITLE: ${title}\n"
-;;            :unnarrowed t)
-;;           ("r" "ref" plain (function org-roam-capture--get-point)
-;;            "%?"
-;;            :file-name "websites/${slug}"
-;;            :head "#+SETUPFILE:./hugo_setup.org
-;; #+ROAM_KEY: ${ref}
-;; #+HUGO_SLUG: ${slug}
-;; #+TITLE: ${title}
-;; - source :: ${ref}"
-;;            :unnarrowed t))))
-
-(use-package! websocket
-  :after org-roam)
-
-(use-package! org-roam-ui
-  :after org-roam
-  :commands org-roam-ui-open
-  :hook (org-roam . org-roam-ui-mode)
-  :config
-  (require 'org-roam) ; in case autoloaded
-  (defun org-roam-ui-open ()
-    "Ensure the server is active, then open the roam graph."
-    (interactive)
-    (unless org-roam-ui-mode (org-roam-ui-mode 1))
-    (call-process "open" nil t nil "-a" "safari" (format "http://localhost:%d" org-roam-ui-port))))
-
-;; org roam export
-(defun my/org-roam--backlinks-list (file)
-  (if (org-roam--org-roam-file-p file)
-      (--reduce-from
-       (concat acc (format "- [[file:%s][%s]]\n"
-                           (file-relative-name (car it) org-roam-directory)
-                           (org-roam--get-title-or-slug (car it))))
-       "" (org-roam-sql [:select [file-from] :from file-links :where (= file-to $s1)] file))
-    ""))
-
-(defun my/org-export-preprocessor ()
-  (let ((links (my/org-roam--backlinks-list (buffer-file-name))))
-    (unless (string= links "")
-      (save-excursion
-        (goto-char (point-max))
-        (insert (concat "\n* Backlinks\n") links)))))
-
-(add-hook 'org-export-before-processing-hook 'my/org-export-preprocessor)
-
-(use-package! smartparens
-  :init
-  (map! :map smartparens-mode-map
-        "C-M-f" #'sp-forward-sexp
-        "C-M-b" #'sp-backward-sexp
-        "C-M-u" #'sp-backward-up-sexp
-        "C-M-d" #'sp-down-sexp
-        "C-M-p" #'sp-backward-down-sexp
-        "C-M-n" #'sp-up-sexp
-        "C-M-s" #'sp-splice-sexp
-        "C-)" #'sp-forward-slurp-sexp
-        "C-}" #'sp-forward-barf-sexp
-        "C-(" #'sp-backward-slurp-sexp
-        "C-M-)" #'sp-backward-slurp-sexp
-        "C-M-)" #'sp-backward-barf-sexp))
-
-
-;; hydra settings
-(defhydra hydra-smartparens ()
-  "Smartparens"
-  ("q" nil)
-  ;; Wrapping
-  ("(" (lambda (_) (interactive "P") (sp-wrap-with-pair "(")))
-  ("{" (lambda (_) (interactive "P") (sp-wrap-with-pair "{")))
-  ("'" (lambda (_) (interactive "P") (sp-wrap-with-pair "'")))
-  ("\"" (lambda (_) (interactive "P") (sp-wrap-with-pair "\"")))
-  ("w" (lambda (_) (interactive "P") (sp-wrap-with-pair "(")) "wrap")
-  ("W" sp-unwrap-sexp)
-  ;; Movement
-  ("l" sp-next-sexp)
-  ("h" sp-backward-sexp)
-  ("j" sp-down-sexp)
-  ("k" sp-backward-up-sexp)
-  ("L" sp-forward-symbol)
-  ("H" sp-backward-symbol)
-  ("^" sp-beginning-of-sexp)
-  ("$" sp-end-of-sexp)
-
-  ("t" sp-transpose-sexp "transpose")
-  ("u" undo-fu-only-undo "undo")
-
-  ("y" sp-copy-sexp "copy")
-  ("d" sp-kill-sexp "delete")
-
-  ("s" sp-forward-slurp-sexp "slurp")
-  ("S" sp-backward-slurp-sexp)
-
-  ("b" sp-forward-barf-sexp "barf")
-  ("B" sp-backward-barf-sexp)
-
-  ("v" sp-select-next-thing "select")
-  ("V" sp-select-previous-thing))
-
-;; Call hydra-smartparens/body
-(map! :localleader
-      :map clojure-mode-map
-      :desc "smartparens" "s" #'hydra-smartparens/body)
-
-(use-package! clojure-mode
-  :config
-  (require 'flycheck-clj-kondo))
-
-;; rust
-(setq lsp-rust-server 'rust-analyzer)
-(setq lsp-rust-analyzer-server-display-inlay-hints t)
-
-
-(map! :localleader
-      :map emacs-lisp-mode-map
-      :desc "smartparens" "s" #'hydra-smartparens/body)
-
-(setq nrepl-force-ssh-for-remote-hosts t)
-
 (use-package! magit-delta
   :config
   (add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1))))
 
-;; org capture frame for alfred
-(defun make-orgcapture-frame ()
-  "Create a new frame and run org-capture."
-  (interactive)
-  (make-frame '((name . "remember") (width . 80) (height . 16)
-                (top . 400) (left . 300)
-                (font . "-apple-Monaco-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
-                ))
-  (select-frame-by-name "remember")
-  (org-capture))
-
-;; mu4e
-(set-email-account! "gmail.com"
-                    '((mu4e-sent-folder       . "/gmail/Sent Mail")
-                      (mu4e-drafts-folder     . "/gmail/Drafts")
-                      (mu4e-trash-folder      . "/gmail/Trash")
-                      (mu4e-refile-folder     . "/gmail/All Mail")
-                      (smtpmail-smtp-user     . "hughobrien.v@gmail.com")
-                      (user-mail-address      . "hughobrien.v@gmail.com")    ;; only needed for mu < 1.4
-                      (mu4e-compose-signature . "---\nHugh OBrien"))
-                    t)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
