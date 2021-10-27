@@ -378,10 +378,10 @@
 
   (defadvice! org-babel-get-src-block-info-eager-async-a (orig-fn &optional light datum)
     "Eagarly add an :async parameter to the src information, unless it seems problematic.
-This only acts o languages in `org-babel-auto-async-languages'.
-Not added when either:
-+ session is not \"none\"
-+ :sync is set"
+     This only acts o languages in `org-babel-auto-async-languages'.
+     Not added when either:
+     + session is not \"none\"
+     + :sync is set"
     :around #'org-babel-get-src-block-info
     (let ((result (funcall orig-fn light datum)))
       (when (and (string= "none" (cdr (assoc :session (caddr result))))
@@ -394,13 +394,15 @@ Not added when either:
   (add-hook 'focus-out-hook 'save-all))
 
 
-(setq org-roam-directory (file-truename "~/second-brain/orgroam")
-        org-roam-db-location (file-truename "~/.org-roam.db")
-        org-roam-graph-viewer (lambda (file)
-                                (call-process "open" nil t nil "-a" "safari" file))
-        org-roam-graph-extra-config '(("concentrate" . "true"))
-        org-roam-graph-exclude-matcher '("daily" "private")
-        +org-roam-open-buffer-on-find-file nil)
+(use-package! org-roam
+  :custom
+  (org-roam-directory (file-truename "~/second-brain"))
+  (org-roam-dailies-directory (file-truename "journals/"))
+  (org-roam-capture-templates
+    '(("d" "default" plain "%?"
+       :target (file+head "pages/${slug}.org"
+                          "#+title: ${title}\n")
+       :unnarrowed t))))
 
 
 (use-package! magit-delta

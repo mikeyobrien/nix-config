@@ -25,10 +25,11 @@ in {
 
           vim-airline
           vim-airline-themes
+          vim-commentary
           vim-eunuch
           vim-fireplace
           vim-fugitive
-          # vim-go
+          vim-go
           vim-markdown
           vim-nix
           vim-startify

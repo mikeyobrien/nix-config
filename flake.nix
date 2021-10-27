@@ -90,6 +90,7 @@
           ./modules/tmux.nix
           ./home/modules/neovim.nix
           ./home/modules/alacritty.nix
+          ./home/modules/emacs.nix
         ];
       };
     };

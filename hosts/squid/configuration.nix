@@ -12,23 +12,22 @@
       experimental-features = nix-command flakes
     '';
   };
+  nixpkgs.config.allowUnfree = true;
 
-
-
-  boot.loader.grub = {
-    enable = true;
-    version = 2;
-    device = "/dev/sda"; # or "nodev" for efi only
-  };
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   # nixOS 
   modules.bspwm.enable = true;
   modules.tmux.enable = true;
 
+  hardware.video.hidpi.enable = true;
+  services.xserver.dpi = 180;
   # home-manager modules
   modules = {
     neovim.enable = true;
     alacritty.enable = true;
+    emacs.enable = true;
   };
 
   programs.fish.enable = true;
@@ -44,7 +43,7 @@
   users.users.mikeyobrien = {
     isNormalUser = true;
     initialPassword = "nixos";
-    extraGroups = [ "wheel" ];
+    extraGroups = [ "wheel" "docker" ];
     shell = pkgs.fish;
   };
 
@@ -53,22 +52,34 @@
     firefox
     git
     openconnect
+    steam-run
+    pqrs
 
     python3
+    python38
     pre-commit
     gcc
     go
     terraform_0_14
+    docker
   ];
 
-  fonts.fonts = with pkgs; [
-    iosevka
-    nerdfonts
-  ];
+  # Shared folder to host works on Intel
+  fileSystems."/host" = {
+    fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
+    device = ".host:/";
+    options = [
+      "uid=1000"
+      "gid=1000"
+      "allow_other"
+      "auto_unmount"
+      "defaults"
+    ];
+  };
 
   virtualisation.vmware.guest.enable = true;
+  virtualisation.docker.enable = true;
   services.openssh.enable = true;
-
   system.stateVersion = "21.05";
 }
 

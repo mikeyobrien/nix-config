@@ -11,6 +11,7 @@ with builtins;
   home.packages = with pkgs; [
     babashka
     fish
+    awscli
     starship
     htop
     jetbrains-mono
@@ -53,6 +54,7 @@ with builtins;
     enable  = true;
     userName = "Mikey O'Brien";
     userEmail = "mobrien@vectra.ai";
+    lfs.enable = true;
     aliases = {
       ca         = "commit --amend";
       changes    = "diff --name-status -r --color | diff-so-fancy";
@@ -61,6 +63,8 @@ with builtins;
                     + " && ${pkgs.git}/bin/git stash pop";
     };
     extraConfig = {
+      http = { postBuffer = 524288000; };
+      core = { compression = 0; };
       "includeIf \"vectra/\"" = { path = ".gitconfig-vectra"; };
       "includeIf \"code/\"" = { path = ".gitconfig-code"; };
     };

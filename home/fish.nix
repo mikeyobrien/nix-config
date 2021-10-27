@@ -40,7 +40,15 @@
           sha256 = "00xqlyl3lffc5l0viin1nyp819wf81fncqyz87jx8ljjdhilmgbs";
         };
       }
-
+      {
+        name = "aws";
+        src = pkgs.fetchFromGitHub {
+          owner = "oh-my-fish";
+          repo = "plugin-aws";
+          rev = "a4cfb06627b20c9ffdc65620eb29abcedcc16340";
+          sha256 = "sha256-bTyp5j4VcFSntJ7mJBzERgOGGgu7ub15hy/FQcffgRE=";
+        };
+      }
       {
         name = "fzf.fish";
         src = pkgs.fetchFromGitHub {

@@ -4,15 +4,10 @@ alt + t
 alt + w; alt + b
 	bspc window -s last
 
-# Attach to a detached session. If none is available create a new one, rather
-# than attach to one that is already attached to elsewhere.
 alt + Return
-	xst -e bash -c "(tmux ls | grep -qEv 'attached|scratch' && tmux at) || tmux"
-# Start a plain ol' terminal
-alt + ctrl + Return
-        xst 
+        xst
 alt + ctrl + alt + Return
-	xterm
+        xterm
 
 # Open a disposable, floating terminal window, for quick shell commands.
 alt + grave
