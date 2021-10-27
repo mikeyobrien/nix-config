@@ -19,11 +19,5 @@ in {
     };
 
     services.emacs.enable = true;
-
-    home.file.".doom.d" = {
-      source = ../doom.d;
-      recursive = true;
-      onChange = builtins.readFile ../../doom-setup.sh;
-    }; 
   };
 }

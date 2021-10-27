@@ -53,7 +53,6 @@
     end
   '';
   environment.variables.SHELL = "${pkgs.fish}/bin/fish";
-  environment.variables.DOOMDIR = "$HOME/.doom.d";
 
   system.stateVersion = 4;
 }
