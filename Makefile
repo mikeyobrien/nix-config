@@ -19,17 +19,11 @@ clean:
 	@echo Cleaning build directory...
 	rm $(NIX_DARWIN)/result
 
-build:
-	@echo BUILD_ARG=$(NIX_DARWIN)/#darwinConfigurations.$(HOSTNAME).system
-	@nix -v build $(NIX_DARWIN)/#darwinConfigurations.$(HOSTNAME).system
-
-switch:
-	@$(NIX_DARWIN)/result/sw/bin/darwin-rebuild switch --flake $(NIX_DARWIN)
-
 rebuild-switch:
 	@nixos-rebuild switch --flake "/etc/nixos#"
 
-darwin-switch: build switch
+home-switch:
+	@home-manager switch --flake .\#$(HOSTNAME)
 
 vm/bootstrap-base:
 	ssh -p$(NIXPORT) root@$(NIXADDR) " \
