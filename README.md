@@ -3,7 +3,7 @@
 Flake based nix-config for linux based machines.
 
 ## Install
-Retriave and boot VM with nixos iso.
+Retrieve and boot VM with nixos iso.
 
 Set harddrive to SATA.
 I am using 150GB disk space, half cpu cores, and half ram. (if there isn't enough ram, the install may fail).
