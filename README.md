@@ -32,15 +32,15 @@ The nix-darwin hosts are in the process of being managed solely by home-manager,
 For home-manager only configurations, this is an easy way to share a base set of packages + dotfiles between machines.
 
 ### Requirements
-Install [Nix](https://nixos.org/manual/nix/stable/#ch-installing-binary)
-Install [Home-Manager](https://github.com/nix-community/home-manager)
+Install [Nix](https://nixos.org/manual/nix/stable/#ch-installing-binary)  
+Install [Home-Manager](https://github.com/nix-community/home-manager)  
 
-Enable flakes by adding,
+Enable flakes,
 ```
 mkdir -p ~/.config/nix/ && echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 ```
 
-### Current systems
+### Current supported hosts
 - mobrien-mbp19
 
 

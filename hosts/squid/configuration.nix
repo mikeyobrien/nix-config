@@ -53,7 +53,6 @@
     git
     openconnect
     steam-run
-    pqrs
 
     python3
     python38
