@@ -15,7 +15,7 @@ with builtins;
   };
 
   services.yabai = {
-    enable = true;
+    enable = false;
     package = pkgs.yabai;
     enableScriptingAddition = false;
     config = {
@@ -76,6 +76,6 @@ with builtins;
     powerline-fonts
   ];
 
-  services.skhd.enable = true;
-  services.skhd.skhdConfig = builtins.readFile ../dotfiles/skhdrc;
+  services.skhd.enable = false;
+  #services.skhd.skhdConfig = builtins.readFile ../dotfiles/skhdrc;
 }

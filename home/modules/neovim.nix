@@ -45,6 +45,7 @@ in {
           telescope-project-nvim
           hop-nvim
         ];
+
         extraConfig = builtins.readFile ../configs/init.vim;
         coc = {
           enable = true;
