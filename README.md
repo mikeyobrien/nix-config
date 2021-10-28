@@ -24,6 +24,8 @@ After the reboot, the system-configuration will be applied to the VM.
 - squid (x86)
 - m1macbook (deprecated)
 - nix-wsl (deprecated)
+
+
 The nix-darwin hosts are in the process of being managed solely by home-manager, as the need for a declarative system configuration is less needed as I use Linux VMs for main dev.
 
 ## Home-Manager
