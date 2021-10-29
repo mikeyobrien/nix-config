@@ -23,14 +23,13 @@ in {
           defaultSession = "none+bspwm";
           lightdm.enable = true;
           lightdm.greeters.mini.enable = true;
-          lightdm.greeters.mini.user = "mikeyobrien";
         };
         windowManager.bspwm.enable = true;
       };
     };
 
     home.configFile."sxhkd".source = ../home/configs/sxhkd;
-    home.configFile."bspwm" = {
+    home.file."bspwm" = {
       source = ../home/configs/bspwm;
       recursive = true;
     };
