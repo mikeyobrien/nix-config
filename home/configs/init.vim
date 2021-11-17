@@ -1,3 +1,6 @@
+set background=dark
+colorscheme gruvbox
+
 let g:vim_home_path = "~/.config/nvim"
 let g:terraform_fmt_on_save = 1
 let g:startify_change_to_vcs_root = 0

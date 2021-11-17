@@ -70,7 +70,7 @@
        :tools
        ;;ansible
        ;;debugger               ; FIXME stepping through code, to help you add bugs
-       ;direnv
+       direnv
        ;docker
        ;editorconfig             ; let someone else argue about tabs vs spaces
        ;;ein                    ; tame Jupyter notebooks with emacs
@@ -87,8 +87,8 @@
        ;pdf                      ; pdf enhancements
        ;;prodigy                ; FIXME managing external services & code builders
        ;rgb                      ; creating color strings
-       ;terraform                ; infrastructure as code
-       ;; tmux                          ; an API for interacting with tmux
+       (terraform +lsp)                ; infrastructure as code
+       tmux                          ; an API for interacting with tmux
        ;; upload                        ; map local to remote projects via ssh/ftp
 
        :lang
@@ -107,7 +107,7 @@
        emacs-lisp               ; drown in parentheses
        ;;ess                    ; emacs speaks statistics
        ;;fsharp                 ; ML stands for Microsoft's Language
-       ;(go +lsp)                ; the hipster dialect
+       (go +lsp)                ; the hipster dialect
        ;;(haskell +intero)      ; a language that's lazier than I am
        ;;hy                     ; readability of scheme w/ speed of python
        ;;idris             ;
@@ -137,8 +137,8 @@
        ;;php                    ; perl's insecure younger brother
        ;;plantuml               ; diagrams for confusing people more
        ;;purescript             ; javascript, but functional
-       ;(python
-       ; +lsp)
+       (python
+        +lsp)
        ;;qt                     ; the 'cutest' gui framework ever
        ;;racket                 ; a DSL for DSLs
        ;rest                     ; Emacs as a REST client

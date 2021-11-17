@@ -7,6 +7,11 @@ with builtins;
     ./fish.nix
   ];
 
+  home.file.".doom.d" = {
+      source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home/doom.d;
+      recursive = true;
+  };
+
   programs.home-manager.enable = true;
   home.packages = with pkgs; [
     babashka
@@ -21,7 +26,6 @@ with builtins;
     bat
     diff-so-fancy
     thefuck
-    direnv
     delta
     jq
     git-lfs
@@ -32,7 +36,11 @@ with builtins;
     EDITOR = "nvim";
   };
 
-  programs.direnv.enable = true;
+  programs.direnv = {
+    enable = true;
+    enableFishIntegration = true;
+  };
+
   programs.fzf = {
     enable = true;
     enableFishIntegration = true;

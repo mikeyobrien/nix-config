@@ -22,6 +22,7 @@ in {
           coc-nvim
           coc-pyright
           coc-go
+          coc-metals
 
           vim-airline
           vim-airline-themes
@@ -44,6 +45,10 @@ in {
           telescope-coc-nvim
           telescope-project-nvim
           hop-nvim
+
+          # colorscheme
+          lush-nvim
+          gruvbox-nvim
         ];
 
         extraConfig = builtins.readFile ../configs/init.vim;

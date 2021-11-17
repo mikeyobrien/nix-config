@@ -34,7 +34,7 @@ alt + s
 alt + Escape
 	pkill -USR1 -x sxhkd
 
-alt + alt + Escape
+alt + shift + Escape
 	bspc quit
 
 
@@ -45,13 +45,13 @@ alt + alt + Escape
 alt + w; alt + {_,shift + }f
 	bspc node -t ~{floating,fullscreen}
 
-# Focus window directionally; w/ ctrl = move by monitor
+# Focus window directionally
 alt + {_,ctrl +}{h,j,k,l}
-	$DOTFILES_BIN/bspwm/focus {_,-m }{west,south,north,east}
+	bspc node -{f,s} {west,south,north,east}
 
 # Swap windows directionally; w/ ctrl = across monitors
 alt + shift + {_,ctrl +}{h,j,k,l}
-	$DOTFILES_BIN/bspwm/swap {_,-m }{west,south,north,east}
+	bspc node -s {west,south,north,east}
 
 
 #

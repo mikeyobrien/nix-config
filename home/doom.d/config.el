@@ -80,9 +80,6 @@
 (unless window-system
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
   (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
-;(setq require-final-newline nil)
-
-
 
 (after! org
   (add-hook 'org-mode-hook 'turn-on-auto-fill)

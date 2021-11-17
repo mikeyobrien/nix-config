@@ -17,7 +17,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # nixOS 
+    # nixOS 
   modules.bspwm.enable = true;
   modules.tmux.enable = true;
 
@@ -50,10 +50,13 @@
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     firefox
-    git
     openconnect
     steam-run
 
+    # dev tools
+    ssm-session-manager-plugin
+    git
+    gron
     python3
     python38
     pre-commit
@@ -64,7 +67,7 @@
   ];
 
   # Shared folder to host works on Intel
-  fileSystems."/host" = {
+  fileSystems."/mnt/host" = {
     fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
     device = ".host:/";
     options = [
