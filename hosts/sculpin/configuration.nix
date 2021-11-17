@@ -37,7 +37,7 @@ with builtins;
   modules.bspwm.enable = true;
 
   hardware.video.hidpi.enable = true;
-  services.xserver.dpi = 180;
+  services.xserver.dpi = 192;
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.xlibs.xset}/bin/xset r rate 200 40
     ${pkgs.xorg.xrandr}/bin/xrandr -s '2880x1800' 
@@ -53,14 +53,22 @@ with builtins;
   users.users.root.initialPassword = "nixos";
   users.users.mikeyobrien.shell = pkgs.fish;
 
+  services.xserver.displayManager.lightdm.greeters.mini.user = "mikeyobrien";
+
   environment.systemPackages = with pkgs; [
-    vim 
+    vim
     wget
     open-vm-tools
     git
     gnumake
     xst
     mosh
+
+    terraform
+    terraform-ls
+    
+    kubernetes-helm
+    kubectl
   ];
 
   fonts.fonts = with pkgs; [
