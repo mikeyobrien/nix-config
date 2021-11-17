@@ -406,6 +406,7 @@
   :config
   (add-hook 'magit-mode-hook (lambda () (magit-delta-mode +1))))
 
+(setq lsp-terraform-server `(,"terraform-ls", "serve"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

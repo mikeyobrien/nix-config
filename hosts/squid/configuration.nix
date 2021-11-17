@@ -22,7 +22,7 @@
   modules.tmux.enable = true;
 
   hardware.video.hidpi.enable = true;
-  services.xserver.dpi = 180;
+  services.xserver.dpi = 244;
   # home-manager modules
   modules = {
     neovim.enable = true;

@@ -7,6 +7,7 @@ in {
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       sqlite
+      xdot
       emacs-all-the-icons-fonts
       fd
       imagemagick

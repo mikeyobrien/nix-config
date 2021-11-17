@@ -7,10 +7,7 @@ with builtins;
     ./fish.nix
   ];
 
-  home.file.".doom.d" = {
-      source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home/doom.d;
-      recursive = true;
-  };
+  home.file.".doom.d".source = config.lib.file.mkOutOfStoreSymlink /etc/nixos/home/doom.d;
 
   programs.home-manager.enable = true;
   home.packages = with pkgs; [
