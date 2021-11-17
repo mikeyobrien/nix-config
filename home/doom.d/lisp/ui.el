@@ -1,8 +1,5 @@
 ;;; ../Code/dotfiles/.doom.d/lisp/ui.el -*- lexical-binding: t; -*-
 
-(add-to-list 'default-frame-alist '(height . 24))
-(add-to-list 'default-frame-alist '(width . 80))
-
 ;; Display
 (setq menu-bar-mode nil
       tool-bar-mode nil
@@ -15,7 +12,6 @@
 (global-subword-mode 1)
 (setq fancy-splash-image (concat doom-private-dir "splash.png"))
 
-
 ;; zen mode
 (setq +zen-text-scale 0.8)
 
@@ -27,9 +23,9 @@
 ;; fonts
 (if (equal (system-name) "tower")
     (setq doom-font (font-spec :family "Iosevka" :size 24))
-  (setq doom-font (font-spec :family "JetBrains Mono" :size 14)))
+  (setq doom-font (font-spec :family "JetBrains Mono" :size 30)))
 (setq doom-serif-font (font-spec :family "JetBrains Mono"))
-(setq doom-theme 'doom-dark+)
+(setq doom-theme 'doom-gruvbox)
 (setq doom-themes-treemacs-theme "doom-colors")
 (doom-themes-org-config)
 

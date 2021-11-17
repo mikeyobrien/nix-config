@@ -1,8 +1,8 @@
 ;;; .doom.d/config.el -*- lexical-binding: t; -*-
 ;; Place your private configuration here
-;(load! "lisp/lib")
-;(load! "lisp/ui")
-;(load! "lisp/aws")
+(load! "lisp/lib")
+(load! "lisp/ui")
+(load! "lisp/aws")
 
 (setq user-full-name "mobrien"
       user-mail-address "hmobrienv@gmail.com")
@@ -80,6 +80,7 @@
 (unless window-system
   (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
   (global-set-key (kbd "<mouse-5>") 'scroll-up-line))
+
 
 (after! org
   (add-hook 'org-mode-hook 'turn-on-auto-fill)
@@ -393,8 +394,8 @@
 
 (use-package! org-roam
   :custom
-  (org-roam-directory (file-truename "~/second-brain"))
-  (org-roam-dailies-directory (file-truename "journals/"))
+  (org-roam-directory (file-truename "~/kaalaman"))
+  (org-roam-dailies-directory (file-truename "~/kaalaman/journals/"))
   (org-roam-capture-templates
     '(("d" "default" plain "%?"
        :target (file+head "pages/${slug}.org"
