@@ -21,8 +21,7 @@ in {
         plugins = with pkgs.vimPlugins; [
           coc-nvim
           coc-pyright
-          coc-go
-          coc-metals
+          #coc-go
 
           vim-airline
           vim-airline-themes
@@ -30,7 +29,7 @@ in {
           vim-eunuch
           vim-fireplace
           vim-fugitive
-          vim-go
+          #vim-go
           vim-markdown
           vim-nix
           vim-startify
