@@ -31,6 +31,10 @@ with lib;
       type = attrs;
       description = "list of programs to enable";
     };
+    homeManagerServices = mkOption {
+      type = attrs;
+      description = "list of services to enable";
+    };
   };
 
   config = {
@@ -72,6 +76,7 @@ with lib;
           dataFile   = mkAliasDefinitions options.home.dataFile;
         };
         programs = mkAliasDefinitions options.homeManagerPrograms;
+        services = mkAliasDefinitions options.homeManagerServices;
       };
     };
   };

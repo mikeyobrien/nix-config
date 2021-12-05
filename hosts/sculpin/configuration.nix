@@ -6,10 +6,8 @@ with builtins;
   imports = [ ./hardware-configuration.nix ../../modules/vmware-guest.nix ];
   disabledModules = [ "virtualisation/vmware-guest.nix" ];
 
-
   nix = {
     package = pkgs.nixUnstable;
-
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
@@ -39,6 +37,8 @@ with builtins;
   boot.loader.efi.canTouchEfiVariables = true;
   virtualisation.vmware.guest.enable = true;
 
+  security.sudo.wheelNeedsPassword = false;
+
   networking.hostName = "sculpin"; 
   time.timeZone = "America/Chicago";
 
@@ -52,7 +52,7 @@ with builtins;
   services.xserver.dpi = 220;
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.xlibs.xset}/bin/xset r rate 200 40
-    ${pkgs.xorg.xrandr}/bin/xrandr -s '2880x1800' 
+    ${pkgs.xorg.xrandr}/bin/xrandr -s '2560x1440'
   '';
 
   # home-manager
@@ -81,11 +81,30 @@ with builtins;
     terraform-ls
     kubernetes-helm
     kubectl
+    (writeShellScriptBin "xrandr-2k" ''
+      xrandr -s 2560x1440
+    '')
+    (writeShellScriptBin "xrandr-mbp" ''
+      xrandr -s 2880x1800
+    '')
   ];
 
   fonts.fonts = with pkgs; [
     nerdfonts
   ];
+
+   # Shared folder to host works on Intel
+  fileSystems."/mnt/host" = {
+    fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";
+    device = ".host:/";
+    options = [
+      "uid=1000"
+      "gid=1000"
+      "allow_other"
+      "auto_unmount"
+      "defaults"
+    ];
+  };
 
   environment.variables = {
     GDK_SCALE = "2";
