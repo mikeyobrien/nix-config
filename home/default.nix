@@ -37,7 +37,6 @@ with builtins;
     enable = true;
     enableFishIntegration = true;
     nix-direnv.enable = true;
-    nix-direnv.enableFlakes = true;
   };
 
   programs.fzf = {

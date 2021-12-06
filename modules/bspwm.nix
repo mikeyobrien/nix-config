@@ -16,6 +16,11 @@ in {
       rofi
     ];
 
+    homeManagerServices.sxhkd = {
+      enable = true;
+      extraConfig = builtins.readFile ../home/configs/sxhkd/sxhkdrc;
+    };
+
     services = {
       xserver = {
         enable = true;
@@ -28,7 +33,6 @@ in {
     };
 
     home.file.".Xresources".source = ../home/configs/xresources;
-    home.configFile."sxhkd".source = ../home/configs/sxhkd;
     home.configFile."bspwm" = {
       source = ../home/configs/bspwm;
       recursive = true;

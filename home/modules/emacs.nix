@@ -15,6 +15,7 @@ in {
       zstd
       gcc
       gopls
+      python
     ];
 
     homeManagerPrograms.emacs = {

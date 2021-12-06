@@ -23,16 +23,17 @@
 ;; fonts
 (if (equal (system-name) "tower")
     (setq doom-font (font-spec :family "Iosevka" :size 24))
-  (setq doom-font (font-spec :family "JetBrains Mono" :size 30)))
+  (setq doom-font (font-spec :family "JetBrains Mono" :size 22)))
 (setq doom-serif-font (font-spec :family "JetBrains Mono"))
 (setq doom-theme 'doom-gruvbox)
 (setq doom-themes-treemacs-theme "doom-colors")
 (doom-themes-org-config)
 
-(use-package! tree-sitter
-  :config
-  (require 'tree-sitter-langs)
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+(if (not (equal (system-name) "sculpin"))
+        (use-package! tree-sitter
+          :config
+          (require 'tree-sitter-langs)
+          (global-tree-sitter-mode)
+          (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)))
 
 (provide 'ui)

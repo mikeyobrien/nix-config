@@ -6,7 +6,7 @@ alt + w; alt + b
 
 alt + Return
         xst
-alt + ctrl + alt + Return
+alt + ctrl + Return
         xterm
 
 # Open a disposable, floating terminal window, for quick shell commands.
@@ -23,7 +23,7 @@ alt + e
     emacsclient --eval "(emacs-everywhere)"
 
 alt + space
-        rofi -show run
+    rofi -show run
 
 alt + Tab
 	rofi -show window
@@ -47,7 +47,7 @@ alt + w; alt + {_,shift + }f
 
 # Focus window directionally
 alt + {_,ctrl +}{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
+	bspc node -f {west,south,north,east}
 
 # Swap windows directionally; w/ ctrl = across monitors
 alt + shift + {_,ctrl +}{h,j,k,l}
