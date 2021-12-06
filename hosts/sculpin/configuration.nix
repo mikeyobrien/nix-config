@@ -3,29 +3,41 @@
 with lib;
 with builtins;
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ../../modules/vmware-guest.nix ];
+  disabledModules = [ "virtualisation/vmware-guest.nix" ];
+
 
   nix = {
     package = pkgs.nixUnstable;
+
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
   };
 
-  boot.kernelPackages =  pkgs.linuxPackagesFor (pkgs.linux_5_14.override {
-    argsOverride = rec {
-      src = pkgs.fetchurl {
-            url = "mirror://kernel/linux/kernel/v5.x/linux-${version}.tar.xz";
-            sha256 = "0capilz3wx29pw7n2m5cn229vy9psrccmdspp27znhjkvwj0m0wk";
-      };
-      version = "5.14.11";
-      modDirVersion = "5.14.11";
-      };
-  });
+  boot.kernelPackages =  pkgs.linuxPackages_5_14;
+
+  boot.kernelPatches = [
+    { 
+      name = "efi-initrd-support";
+      patch = null;
+      extraConfig = ''
+        EFI_GENERIC_STUB_INITRD_CMDLINE_LOADER y
+      '';
+    }
+    {
+      name = "fix-kernel-build";
+      patch = null;
+      extraConfig = ''
+        DRM_SIMPLEDRM n
+      '';
+    }
+  ];
 
   boot.kernelParams = ["root=/dev/sda1"];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  virtualisation.vmware.guest.enable = true;
 
   networking.hostName = "sculpin"; 
   time.timeZone = "America/Chicago";
@@ -37,7 +49,7 @@ with builtins;
   modules.bspwm.enable = true;
 
   hardware.video.hidpi.enable = true;
-  services.xserver.dpi = 192;
+  services.xserver.dpi = 220;
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.xlibs.xset}/bin/xset r rate 200 40
     ${pkgs.xorg.xrandr}/bin/xrandr -s '2880x1800' 
@@ -53,20 +65,20 @@ with builtins;
   users.users.root.initialPassword = "nixos";
   users.users.mikeyobrien.shell = pkgs.fish;
 
-  services.xserver.displayManager.lightdm.greeters.mini.user = "mikeyobrien";
+  # services.xserver.displayManager.lightdm.greeters.mini.user = "mikeyobrien";
 
   environment.systemPackages = with pkgs; [
     vim
     wget
     open-vm-tools
     git
+    gtkmm3
     gnumake
     xst
     mosh
 
     terraform
     terraform-ls
-    
     kubernetes-helm
     kubectl
   ];

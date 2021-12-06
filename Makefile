@@ -5,6 +5,7 @@ NIX_DARWIN := $(HOME)/.config/nix-macos
 
 NIXADDR ?= unset
 NIXPORT ?= 22
+NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM ?= 0
 
 # Settings
 NIXBLOCKDEVICE ?= sda
@@ -14,6 +15,7 @@ env-args:
 	@echo NIX_CONF=$(NIX_CONF)
 	@echo NIX_DARWIN=$(NIX_DARWIN)
 	@echo HOSTNAME=$(HOSTNAME)
+	@echo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=$(NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM)
 
 clean:
 	@echo Cleaning build directory...

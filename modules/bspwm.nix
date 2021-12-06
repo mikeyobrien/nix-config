@@ -22,7 +22,6 @@ in {
         displayManager = {
           defaultSession = "none+bspwm";
           lightdm.enable = true;
-          lightdm.greeters.mini.enable = true;
         };
         windowManager.bspwm.enable = true;
       };
