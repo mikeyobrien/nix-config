@@ -11,8 +11,10 @@ in {
       emacs-all-the-icons-fonts
       fd
       imagemagick
+      python-language-server
       zstd
       gcc
+      gopls
     ];
 
     homeManagerPrograms.emacs = {
