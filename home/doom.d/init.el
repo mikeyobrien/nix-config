@@ -146,7 +146,8 @@
        ;(rust
        ; +lsp
        ; +pyright)                   ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-       ;scala                    ; java, but good
+       (scala                    ; java, but good
+         +lsp)
        ;;scheme                 ; a fully conniving family of lisps
        ;sh
        ;solidity                 ; do you need a blockchain? No.

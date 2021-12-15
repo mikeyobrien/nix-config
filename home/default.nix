@@ -45,7 +45,12 @@ with builtins;
   };
   programs.ssh = {
     enable = true;
-    forwardAgent = true;
+    matchBlocks = { 
+      "*.compute.amazonaws.com" = {
+        identityFile = "$HOME/.ssh/id_ed25519";
+        user = "ubuntu";
+      };
+    };
   };
   programs.starship = {
     enable = true;

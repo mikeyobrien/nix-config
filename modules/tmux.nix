@@ -17,7 +17,7 @@ in {
       enable = true;
       terminal = "screen-256color";
       escapeTime = 0;
-      shortcut = "a";
+      prefix = "C-a";
       keyMode = "vi";
       baseIndex = 1;
       aggressiveResize = true;
@@ -29,6 +29,7 @@ in {
             bind-key -T copy-mode-vi 'v' send -X begin-selection
             bind-key -T copy-mode-vi 'r' send -X rectangle-toggle
             bind-key -T copy-mode-vi 'y' send -X copy-pipe-and-cancel
+            bind Enter copy-mode
           '';
         }
         tmuxPlugins.vim-tmux-navigator

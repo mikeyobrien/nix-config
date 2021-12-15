@@ -20,6 +20,7 @@ in {
 
     homeManagerPrograms.emacs = {
       enable = true;
+      package = pkgs.emacsGcc;
     };
 
     services.emacs.enable = true;

@@ -5,6 +5,10 @@
 ;; (package! some-package)
 ;; (package! another-package :recipe (:host github :repo "username/repo"))
 ;; (package! builtin-package :disable t)
+
+; https://github.com/hlissner/doom-emacs/issues/5721
+(unpin! org-mode)
+
 (package! groovy-mode)
 (package! lsp-python-ms)
 (package! python-black)

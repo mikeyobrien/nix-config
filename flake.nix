@@ -16,6 +16,7 @@
   outputs = inputs@{ self, darwin, home-manager, emacs, nixpkgs, flake-utils, ... }:
   let
     inherit (nixpkgs) lib;
+    overlays = [ inputs.emacs.overlay ];
   in {
     nixosConfigurations = {
       sculpin = nixpkgs.lib.nixosSystem {
@@ -34,6 +35,7 @@
      squid = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
+        { nixpkgs.overlays = overlays; }
         home-manager.nixosModules.home-manager
         ./hosts/squid/configuration.nix
         ./modules/options.nix
@@ -45,7 +47,6 @@
       ];
     };
   };
-
     homeConfigurations = {
       mobrien-mbp19 = inputs.home-manager.lib.homeManagerConfiguration {
       configuration = ./hosts/mobrien-mbp19;

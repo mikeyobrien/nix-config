@@ -74,6 +74,7 @@
     interactiveShellInit = ''
       set -g fish_greeting ""
       ${pkgs.thefuck}/bin/thefuck --alias | source
+      fish_add_path $HOME/.emacs.d/bin/doom
     '';
 
     loginShellInit = ''

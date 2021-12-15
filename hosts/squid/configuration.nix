@@ -66,6 +66,8 @@
     docker
   ];
 
+  security.sudo.wheelNeedsPassword = false;
+
   # Shared folder to host works on Intel
   fileSystems."/mnt/host" = {
     fsType = "fuse./run/current-system/sw/bin/vmhgfs-fuse";

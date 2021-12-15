@@ -4,6 +4,10 @@
 (load! "lisp/ui")
 (load! "lisp/aws")
 
+;; https://github.com/hlissner/doom-emacs/issues/5785
+(general-auto-unbind-keys :off)
+(remove-hook 'doom-after-init-modules-hook #'general-auto-unbind-keys)
+
 (setq user-full-name "mobrien"
       user-mail-address "hmobrienv@gmail.com")
 
