@@ -11,6 +11,7 @@
     };
 
     neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
   };
 
 
@@ -19,6 +20,7 @@
     mkConfig = import ./lib/mkConfig.nix;
     overlays = [
       inputs.neovim-nightly-overlay.overlay
+      inputs.emacs-overlay.overlay
     ];
   in {
     nixosConfigurations = {

@@ -20,7 +20,7 @@ clean:
 	rm $(NIX_DARWIN)/result
 
 rebuild-switch:
-	@nixos-rebuild switch --flake "/etc/nixos#"
+	@nixos-rebuild switch --flake "/nix-config#vm-aarch64"
 
 home-switch:
 	@home-manager switch --flake .\#$(HOSTNAME)

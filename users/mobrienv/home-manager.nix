@@ -1,21 +1,53 @@
 { config, pkgs, ... }:
 
 {
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
   home.username = "mobrienv";
   home.homeDirectory = "/home/mobrienv";
 
-  # This value determines the Home Manager release that your
-  # configuration is compatible with. This helps avoid breakage
-  # when a new Home Manager release introduces backwards
-  # incompatible changes.
-  #
-  # You can update Home Manager without changing this value. See
-  # the Home Manager release notes for a list of state version
-  # changes in each release.
-  home.stateVersion = "22.05";
+  xdg.configFile."i3/config".text = builtins.readFile ./i3;
 
-  # Let Home Manager install and manage itself.
+  programs.alacritty = {
+    enable = true;
+    settings = {
+     font.size = 20;
+    };
+  };
+
+  programs.zsh = {
+    enable = true;
+    shellAliases = {
+      "xrandr-macbook" = "xrandr -s 3456x2160";
+      "xrandr-docked" = "xrandr -s 3840x2160";
+    };
+  };
+
+  home.packages = with pkgs; [
+    firefox
+    emacsUnstable
+    jq
+    rofi
+    fd
+    ripgrep
+
+    # rust
+    cargo
+    rustc
+    rust-analyzer
+  ];
+
+  programs.git = {
+    enable = true;
+    userName = "mobrienv";
+    userEmail = "hmobrienv@gmail.com";
+    extraConfig = {
+      safe.directory = [ "*" ];
+    };
+  };
+
+  programs.direnv = {
+    enable = true;
+  };
+
+  home.stateVersion = "22.05";
   programs.home-manager.enable = true;
 }

@@ -44,3 +44,5 @@ mkdir -p ~/.config/nix/ && echo "experimental-features = nix-command flakes" >> 
 - mobrien-mbp19
 
 
+### Acknowledgements
+- @mitchellh - inspiration on repo organization & nix iso builder
