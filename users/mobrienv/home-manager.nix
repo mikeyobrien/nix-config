@@ -23,7 +23,16 @@
 
   home.packages = with pkgs; [
     firefox
-    emacsUnstable
+    ((emacsPackagesFor emacsUnstable).emacsWithPackages (epkgs:
+        with epkgs;
+        # Use Nix to manage packages with non-trivial userspace dependencies.
+        [
+          emacsql
+          emacsql-sqlite
+          pdf-tools
+          org-pdftools
+          vterm
+        ]))
     jq
     rofi
     fd

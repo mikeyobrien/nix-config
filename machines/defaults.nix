@@ -90,6 +90,8 @@
   environment.systemPackages = with pkgs; [
     cachix
     gnumake
+    bintools
+    gcc
     cmake
     killall
     niv
